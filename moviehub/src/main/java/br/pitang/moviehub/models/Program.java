@@ -1,16 +1,20 @@
 package br.pitang.moviehub.models;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
+
+@Data
 @MappedSuperclass
 public abstract class Program {
 
     @Id
     @Column(name = "pro_cl_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotEmpty
@@ -24,9 +28,10 @@ public abstract class Program {
     @OneToMany(targetEntity = Cast.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cast> cast;
 
-    @OneToMany(targetEntity = Person.class)
+    /*
+    @OneToMany(targetEntity = Person.class,cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Person> crew;
-
+    */
     @Column(name = "pro_cl_country")
     private String country;
 

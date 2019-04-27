@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name="tb_movie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Movie  extends Program{
+public class Movie extends Program{
 
     @Column(name = "mov_tb_tagline")
     private String tagline;
