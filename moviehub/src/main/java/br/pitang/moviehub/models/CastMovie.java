@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Data
 @Entity
-@Table(name="mtm_cast")
+@Table(name="mtm_cast_movie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cast {
+public class CastMovie {
 
 
     @EmbeddedId
@@ -21,7 +22,7 @@ public class Cast {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("programId")
-    private Program program;
+    private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("personId")
@@ -35,7 +36,7 @@ public class Cast {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cast cast = (Cast) o;
+        CastMovie cast = (CastMovie) o;
         return id.equals(cast.id);
     }
 
@@ -43,4 +44,6 @@ public class Cast {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }

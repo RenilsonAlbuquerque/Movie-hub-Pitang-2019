@@ -9,14 +9,15 @@ import javax.validation.constraints.NotEmpty;
 public class User {
 
     @Id
+    @Column(name = "use_cl_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
-    @Column(name = "mov_cl_name", nullable = false)
+    @Column(name = "use_cl_name", nullable = false)
     private String username;
 
     @NotEmpty
-    @Column(name = "mov_cl_name", nullable = false)
+    @Column(name = "use_cl_password", nullable = false)
     private String password;
 }

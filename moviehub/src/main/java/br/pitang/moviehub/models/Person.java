@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name="tb_person")
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Person {
+public class Person {
 
 
     @Id
@@ -51,8 +51,13 @@ public abstract class Person {
     private String profilePiturePath;
 
 
-    @OneToMany(targetEntity = Cast.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Cast> cast;
+
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CastSerie> castSeries;
+
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CastMovie> castMovie;
 
 
 }

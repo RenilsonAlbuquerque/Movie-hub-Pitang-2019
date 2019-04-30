@@ -1,16 +1,14 @@
 package br.pitang.moviehub.models;
 
 
-import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Set;
 
 
-@Data
 @MappedSuperclass
-public abstract class Program {
+public abstract class Program implements Serializable {
 
     @Id
     @Column(name = "pro_cl_id")
@@ -25,8 +23,10 @@ public abstract class Program {
     @Column(name = "pro_cl_description", nullable = false)
     private String description;
 
-    @OneToMany(targetEntity = Cast.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Cast> cast;
+
+
+
+
 
     /*
     @OneToMany(targetEntity = Person.class,cascade = CascadeType.ALL, orphanRemoval = true)
@@ -59,7 +59,5 @@ public abstract class Program {
 
     @Column(name = "pro_cl_backdrop_path")
     private String backdropPath;
-
-
 
 }
