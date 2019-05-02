@@ -2,10 +2,8 @@ package br.pitang.moviehub.models;
 
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 
 
@@ -21,5 +19,13 @@ public enum Genre {
         this.value = value;
     }
 
+    public static Genre valueOf(int value) {
+        for (Genre  genre : values()) {
+            if (genre.value == value) {
+                return genre;
+            }
+        }
+        throw new IllegalArgumentException(""+ value);
+    }
 
 }

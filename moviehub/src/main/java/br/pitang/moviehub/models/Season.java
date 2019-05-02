@@ -2,6 +2,7 @@ package br.pitang.moviehub.models;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
+@Builder
 @Table(name = "tb_season")
 @AllArgsConstructor
 @NoArgsConstructor

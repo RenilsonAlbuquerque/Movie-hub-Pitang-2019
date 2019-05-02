@@ -1,12 +1,16 @@
 package br.pitang.moviehub.models;
 
 
+
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 
+@Data
 @MappedSuperclass
 public abstract class Program implements Serializable {
 
@@ -48,7 +52,7 @@ public abstract class Program implements Serializable {
     @JoinTable(name = "mtm_program_generes",
             joinColumns = @JoinColumn(name = "mtm_gen_prog_progId", referencedColumnName = "pro_cl_id"),
             inverseJoinColumns =  @JoinColumn(name = "mtm_gen_prog_genId", referencedColumnName = "gen_cl_id"))
-    private Set<Genere> generes;
+    private List<Genere> generes;
 
 
     @Column(name = "pro_cl_vote_average")

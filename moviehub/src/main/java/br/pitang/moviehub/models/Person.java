@@ -3,6 +3,7 @@ package br.pitang.moviehub.models;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 
 @Entity
+@Builder
 @Table(name="tb_person")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +34,7 @@ public class Person {
 
     @NotEmpty
     @Column(name = "per_cl_height", nullable = false)
-    private String height;
+    private int height;
 
     @NotEmpty
     @Column(name = "per_cl_city", nullable = false)

@@ -2,6 +2,7 @@ package br.pitang.moviehub.models;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 @Data
 @Entity
+@Builder
 @Table(name="mtm_cast_movie")
 @AllArgsConstructor
 @NoArgsConstructor
