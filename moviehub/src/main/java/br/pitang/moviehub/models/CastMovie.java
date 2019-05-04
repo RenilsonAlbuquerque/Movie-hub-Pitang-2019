@@ -16,7 +16,7 @@ import java.util.Objects;
 @Table(name="mtm_cast_movie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastMovie {
+public class CastMovie implements Cast {
 
 
     @EmbeddedId
@@ -47,5 +47,18 @@ public class CastMovie {
         return Objects.hash(id);
     }
 
+    @Override
+    public CastID id() {
+        return this.id;
+    }
 
+    @Override
+    public Program getProgram() {
+        return this.movie;
+    }
+
+    @Override
+    public String getRole() {
+        return this.getCharacter();
+    }
 }

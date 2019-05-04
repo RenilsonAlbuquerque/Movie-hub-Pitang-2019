@@ -2,6 +2,7 @@ package br.pitang.moviehub.models;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,10 +12,11 @@ import java.util.Objects;
 
 @Data
 @Entity
+@Builder
 @Table(name="mtm_cast_serie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastSerie {
+public class CastSerie implements Cast{
 
 
     @EmbeddedId
@@ -46,4 +48,18 @@ public class CastSerie {
     }
 
 
+    @Override
+    public CastID id() {
+        return this.id;
+    }
+
+    @Override
+    public Program getProgram() {
+        return this.serie;
+    }
+
+    @Override
+    public String getRole() {
+        return this.character;
+    }
 }

@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public enum Genre {
 
-    FEMALE(1),MALE(2), OTHERS(3);
+    FEMALE(1),MALE(2), OTHERS(0);
 
     private int value;
 

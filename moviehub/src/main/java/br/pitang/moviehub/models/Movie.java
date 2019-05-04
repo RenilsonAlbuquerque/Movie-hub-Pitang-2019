@@ -1,13 +1,13 @@
 package br.pitang.moviehub.models;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
+
 
 
 @Entity
@@ -20,7 +20,7 @@ public class Movie extends Program{
     private String tagline;
 
 
-    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL, orphanRemoval = true,targetEntity = CastMovie.class)
     private List<CastMovie> cast;
 
     @Builder

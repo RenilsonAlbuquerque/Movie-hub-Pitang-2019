@@ -4,6 +4,7 @@ package br.pitang.moviehub.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 @Entity
 @Builder
+@Data
 @Table(name="tb_person")
 @AllArgsConstructor
 @NoArgsConstructor
