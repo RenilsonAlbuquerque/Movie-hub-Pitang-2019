@@ -3,11 +3,12 @@ package br.pitang.moviehub.models;
 
 
 
+
 import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 
 
-@Embeddable
+
 @NoArgsConstructor
 public enum Genre {
 

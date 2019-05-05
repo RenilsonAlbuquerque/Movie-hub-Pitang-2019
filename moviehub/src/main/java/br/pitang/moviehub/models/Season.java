@@ -23,7 +23,7 @@ public class Season {
     @Column(name = "sea_cl_name")
     private String name;
 
-    @Column(name = "sea_cl_overview")
+    @Column(name = "sea_cl_overview", length = 2500)
     private String overview;
 
     @Column(name = "sea_cl_air_date")

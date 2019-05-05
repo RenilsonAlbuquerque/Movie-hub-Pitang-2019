@@ -1,16 +1,18 @@
 package br.pitang.moviehub.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Data
+@Builder
 @Embeddable
 @AllArgsConstructor
+@NoArgsConstructor
 public class CastID implements Serializable {
 
     @Column(name = "cas_program_id")
@@ -18,7 +20,6 @@ public class CastID implements Serializable {
 
     @Column(name = "cas_person_id")
     private Long personId;
-
 
 
     @Override
@@ -33,5 +34,22 @@ public class CastID implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(programId, personId);
+    }
+
+
+    public Long getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(Long programId) {
+        this.programId = programId;
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 }

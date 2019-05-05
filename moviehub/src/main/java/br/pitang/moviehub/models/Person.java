@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Set;
+import java.util.List;
 
 
 @Entity
@@ -22,27 +22,25 @@ public class Person {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.)
     private Long id;
 
     @NotEmpty
     @Column(name = "per_cl_name", nullable = false)
     private String name;
 
-    @NotEmpty
-    @Column(name = "per_cl_biography", nullable = false)
+    @Column(name = "per_cl_biography", nullable = false, length = 3000)
     private String biography;
 
 
-    @NotEmpty
-    @Column(name = "per_cl_height", nullable = false)
-    private int height;
+    @Column(name = "per_cl_height")
+    private Integer height;
 
-    @NotEmpty
+
     @Column(name = "per_cl_city", nullable = false)
     private String birthCity;
 
-    @NotEmpty
+
     @Column(name = "per_cl_country", nullable = false)
     private String countryWhereLive;
 
@@ -56,12 +54,12 @@ public class Person {
 
 
 
-    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CastSerie> castSeries;
+    @OneToMany(mappedBy = "person", orphanRemoval = true)
+    private List<CastSerie> castSeries;
 
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CastMovie> castMovie;
+    @OneToMany(mappedBy = "person", orphanRemoval = true)
+    private List<CastMovie> castMovie;
 
 
 }

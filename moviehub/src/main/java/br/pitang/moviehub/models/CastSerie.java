@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 
@@ -16,17 +17,17 @@ import java.util.Objects;
 @Table(name="mtm_cast_serie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastSerie implements Cast{
+public class CastSerie implements Cast, Serializable {
 
 
     @EmbeddedId
     private CastID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId("programId")
     private Serie serie;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId("personId")
     private Person person;
 

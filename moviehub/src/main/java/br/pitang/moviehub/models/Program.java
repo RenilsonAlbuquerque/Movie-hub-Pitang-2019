@@ -24,7 +24,7 @@ public abstract class Program implements Serializable {
     private String title;
 
     @NotEmpty
-    @Column(name = "pro_cl_description", nullable = false)
+    @Column(name = "pro_cl_description", nullable = false, length = 2500)
     private String description;
 
     @Column(name = "pro_cl_country")
@@ -39,7 +39,7 @@ public abstract class Program implements Serializable {
     @Column(name = "pro_cl_duration")
     private double durationInMinutes;
 
-    @ManyToMany(targetEntity = Genere.class)
+    @ManyToMany(targetEntity = Genere.class, cascade = CascadeType.ALL)
     @JoinTable(name = "mtm_program_generes",
             joinColumns = @JoinColumn(name = "mtm_gen_prog_progId", referencedColumnName = "pro_cl_id"),
             inverseJoinColumns =  @JoinColumn(name = "mtm_gen_prog_genId", referencedColumnName = "gen_cl_id"))

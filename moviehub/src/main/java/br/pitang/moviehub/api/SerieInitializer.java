@@ -15,7 +15,7 @@ public abstract class SerieInitializer {
                 .doRequest("https://api.themoviedb.org/3/tv/popular?api_key="
                 + ExternalRequestFactory.getTmdbApiKey() +  "&language=pt-Br&page=1").get("results");
         for(HashMap serie: (ArrayList<HashMap>) seriesInput){
-            //Detalhes do filme
+            //Detalhes da serie
             HashMap serieDetail = ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/tv/"
                     + serie.get("id") + "?api_key="
                     + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
@@ -38,8 +38,15 @@ public abstract class SerieInitializer {
                     .crew(creditSeries.getCrew())
                     .seasons(retrieveSeasons((List<HashMap>) serieDetail.get("seasons")))
                     .build();
+            for(CastSerie cast: serieEntity.getCast()){
+                cast.setSerie(serieEntity);
+            }
+            for(CrewSerie crew: serieEntity.getCrew()){
+                crew.setSerie(serieEntity);
+            }
             seriesOutput.add(serieEntity);
             System.out.println(serieEntity.getTitle());
+            break;
         }
         return seriesOutput;
     }

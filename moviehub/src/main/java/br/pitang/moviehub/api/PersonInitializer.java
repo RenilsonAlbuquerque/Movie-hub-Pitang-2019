@@ -17,12 +17,20 @@ public abstract class PersonInitializer {
 
         for (HashMap credit : (List<HashMap>) creditsRequest.get("cast")) {
             CastMovie.builder()
+                    .id(
+                            CastID.builder().
+                                    personId(Long.valueOf(credit.get("id").toString()))
+                                    .build())
                     .person(buildPerson(credit))
                     .character(credit.get("character").toString())
                     .build();
         }
         for (HashMap credit : (List<HashMap>) creditsRequest.get("crew")) {
             CrewMovie.builder()
+                    .id(
+                            CastID.builder().
+                                    personId(Long.valueOf(credit.get("id").toString()))
+                                    .build())
                     .person(buildPerson(credit))
                     .job(credit.get("job").toString())
                     .department(credit.get("department").toString())
@@ -44,14 +52,22 @@ public abstract class PersonInitializer {
         for (HashMap credit : (List<HashMap>) creditsRequest.get("cast")) {
             outputCast.add(
                     CastSerie.builder()
+                            .id(
+                                    CastID.builder().
+                                            personId(Long.valueOf(credit.get("id").toString()))
+                                            .build())
                             .person(buildPerson(credit))
                             .character(credit.get("character").toString())
                             .build());
         }
-
         for (HashMap credit : (List<HashMap>) creditsRequest.get("crew")) {
+
             outputCrew.add(
                     CrewSerie.builder()
+                            .id(
+                                    CastID.builder().
+                                            personId(Long.valueOf(credit.get("id").toString()))
+                                            .build())
                             .person(buildPerson(credit))
                             .job(credit.get("job").toString())
                             .department(credit.get("department").toString())
@@ -70,9 +86,10 @@ public abstract class PersonInitializer {
         String countryString = retrieveCountry(personDetail.get("place_of_birth"));
 
         Person personEntity = Person.builder()
+                .id(Long.valueOf(personDetail.get("id").toString()))
                 .name(personDetail.get("name").toString())
                 .biography(personDetail.get("biography").toString())
-                .height(1)
+                .height(175)
                 .birthCity(birthCityString)
                 .countryWhereLive(countryString)
                 .genre(Genre.valueOf((int) personDetail.get("gender")))

@@ -16,7 +16,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Movie extends Program{
 
-    @Column(name = "mov_tb_tagline")
+    @Column(name = "mov_tb_tagline", length = 400)
     private String tagline;
 
 

@@ -1,9 +1,7 @@
 package br.pitang.moviehub.api;
 
 
-import br.pitang.moviehub.models.CastMovie;
-import br.pitang.moviehub.models.Genere;
-import br.pitang.moviehub.models.Movie;
+import br.pitang.moviehub.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +39,16 @@ public abstract class MovieInitializer {
                     .cast(creditMovie.getCast())
                     .crew(creditMovie.getCrew())
                     .build();
+
+            for(CastMovie cast: movieEntity.getCast()){
+                cast.setMovie(movieEntity);
+            }
+            for(CrewMovie crew: movieEntity.getCrew()){
+                crew.setMovie(movieEntity);
+            }
             moviesOutput.add(movieEntity);
             System.out.println(movieEntity.getTitle());
+            break;
 
         }
         return moviesOutput;
