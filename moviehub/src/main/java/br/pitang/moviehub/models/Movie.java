@@ -23,10 +23,13 @@ public class Movie extends Program{
     @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL, orphanRemoval = true,targetEntity = CastMovie.class)
     private List<CastMovie> cast;
 
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL, orphanRemoval = true,targetEntity = CrewMovie.class)
+    private List<CrewMovie> crew;
+
     @Builder
     public Movie(String title, String description, String country, String language, Long releaseyear,
                  double durationInMinutes, List<Genere> generes, Double voteAverage, Long voteCount,
-                 String backdropPath, String tagline, List<CastMovie> cast){
+                 String backdropPath, String tagline, List<CastMovie> cast, List<CrewMovie> crew){
         super();
         super.setTitle(title);
         super.setDescription(description);
@@ -40,6 +43,7 @@ public class Movie extends Program{
         super.setBackdropPath(backdropPath);
         this.setTagline(tagline);
         this.setCast(cast);
+        this.setCrew(crew);
     }
 
 

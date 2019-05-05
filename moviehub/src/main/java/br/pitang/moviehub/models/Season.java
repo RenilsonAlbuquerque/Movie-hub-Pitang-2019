@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -27,7 +27,7 @@ public class Season {
     private String overview;
 
     @Column(name = "sea_cl_air_date")
-    private Date airDate;
+    private LocalDate airDate;
 
     @Column(name = "sea_cl_episodes")
     private int episodeCount;

@@ -1,6 +1,6 @@
 package br.pitang.moviehub.api;
 
-import br.pitang.moviehub.models.Cast;
+
 import br.pitang.moviehub.models.CastMovie;
 import br.pitang.moviehub.models.Genere;
 import br.pitang.moviehub.models.Movie;
@@ -23,7 +23,7 @@ public abstract class MovieInitializer {
             HashMap movieDetail = ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/movie/" + movie.get("id") + "?api_key="
                     + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
 
-            List<CastMovie> castMovie = PersonInitializer.castOfMovie(movie.get("id").toString());
+            CreditMovie creditMovie = PersonInitializer.castOfMovie(movie.get("id").toString());
             List<Genere> genres = GenereInitializer.listAllGeneres((ArrayList<HashMap>) movieDetail.get("genres"));
 
             Movie movieEntity = Movie.builder()
@@ -38,7 +38,8 @@ public abstract class MovieInitializer {
                     .voteCount(Long.valueOf(movieDetail.get("vote_count").toString()))
                     .backdropPath(movieDetail.get("poster_path").toString())
                     .tagline(movieDetail.get("tagline").toString())
-                    .cast(castMovie)
+                    .cast(creditMovie.getCast())
+                    .crew(creditMovie.getCrew())
                     .build();
             moviesOutput.add(movieEntity);
             System.out.println(movieEntity.getTitle());

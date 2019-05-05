@@ -27,15 +27,6 @@ public abstract class Program implements Serializable {
     @Column(name = "pro_cl_description", nullable = false)
     private String description;
 
-
-
-
-
-
-    /*
-    @OneToMany(targetEntity = Person.class,cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Person> crew;
-    */
     @Column(name = "pro_cl_country")
     private String country;
 

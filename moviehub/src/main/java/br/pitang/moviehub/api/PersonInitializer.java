@@ -8,35 +8,57 @@ import java.util.List;
 
 public abstract class PersonInitializer {
 
-    public static ArrayList<CastMovie> castOfMovie(String movieId)  throws InterruptedException {
-        ArrayList<CastMovie> output = new ArrayList<>();
-        List<HashMap> creditisRequest = (List) ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/movie/" + movieId + "/credits?api_key="
-                + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br").get("cast");
+    public static CreditMovie castOfMovie(String movieId)  throws InterruptedException {
+        ArrayList<CastMovie> outputCast = new ArrayList<>();
+        ArrayList<CrewMovie> outputCrew = new ArrayList<>();
 
-        for (HashMap credit : creditisRequest) {
+        HashMap creditsRequest =  ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/movie/" + movieId + "/credits?api_key="
+                + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
+
+        for (HashMap credit : (List<HashMap>) creditsRequest.get("cast")) {
             CastMovie.builder()
                     .person(buildPerson(credit))
                     .character(credit.get("character").toString())
                     .build();
         }
-
-        return output;
+        for (HashMap credit : (List<HashMap>) creditsRequest.get("crew")) {
+            CrewMovie.builder()
+                    .person(buildPerson(credit))
+                    .job(credit.get("job").toString())
+                    .department(credit.get("department").toString())
+                    .build();
+        }
+        return CreditMovie.builder()
+                .cast(outputCast)
+                .crew(outputCrew)
+                .build();
     }
 
-    public static ArrayList<CastSerie> castOfSerie(String serieId)  throws InterruptedException {
-        ArrayList<CastSerie> output = new ArrayList<>();
-        List<HashMap> creditisRequest = (List) ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/tv/" + serieId + "/credits?api_key="
-                + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br").get("cast");
+    public static CreditSerie castOfSerie(String serieId)  throws InterruptedException {
+        ArrayList<CastSerie> outputCast = new ArrayList<>();
+        ArrayList<CrewSerie> outputCrew = new ArrayList<>();
 
-        for (HashMap credit : creditisRequest) {
-            output.add(
+        HashMap creditsRequest =  ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/tv/" + serieId + "/credits?api_key="
+                + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
+
+        for (HashMap credit : (List<HashMap>) creditsRequest.get("cast")) {
+            outputCast.add(
                     CastSerie.builder()
                             .person(buildPerson(credit))
                             .character(credit.get("character").toString())
                             .build());
         }
 
-        return output;
+        for (HashMap credit : (List<HashMap>) creditsRequest.get("crew")) {
+            outputCrew.add(
+                    CrewSerie.builder()
+                            .person(buildPerson(credit))
+                            .job(credit.get("job").toString())
+                            .department(credit.get("department").toString())
+                            .build());
+        }
+
+        return CreditSerie.builder().cast(outputCast).crew(outputCrew).build();
     }
     private static Person buildPerson(HashMap credit) throws InterruptedException{
         HashMap personDetail = ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/person/"

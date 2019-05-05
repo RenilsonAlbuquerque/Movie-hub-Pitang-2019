@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Data
@@ -21,13 +21,16 @@ public class Serie extends Program{
     @OneToMany(targetEntity = Season.class,mappedBy = "serie",cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Season> seasons;
 
-    @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CastSerie> cast;
+
+    @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CrewSerie> crew;
 
     @Builder
     public Serie(String title, String description, String country, String language, Long releaseyear,
                  double durationInMinutes, List<Genere> generes, Double voteAverage, Long voteCount,
-                 String backdropPath, List<CastSerie> cast, List<Season> seasons){
+                 String backdropPath, List<CastSerie> cast, List<Season> seasons, List<CrewSerie> crew){
         super();
         super.setTitle(title);
         super.setDescription(description);
@@ -41,6 +44,7 @@ public class Serie extends Program{
         super.setBackdropPath(backdropPath);
         this.setSeasons(seasons);
         this.setCast(cast);
+        this.setCrew(crew);
     }
 
 

@@ -2,10 +2,8 @@ package br.pitang.moviehub.api;
 
 import br.pitang.moviehub.models.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 public abstract class SerieInitializer {
 
@@ -22,7 +20,7 @@ public abstract class SerieInitializer {
                     + serie.get("id") + "?api_key="
                     + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
 
-            List<CastSerie> castSeries = PersonInitializer.castOfSerie(serie.get("id").toString());
+            CreditSerie creditSeries = PersonInitializer.castOfSerie(serie.get("id").toString());
             List<Genere> genres = GenereInitializer.listAllGeneres((ArrayList<HashMap>) serieDetail.get("genres"));
 
             Serie serieEntity = Serie.builder()
@@ -36,7 +34,8 @@ public abstract class SerieInitializer {
                     .voteAverage(Double.valueOf(serieDetail.get("vote_average").toString()))
                     .voteCount(Long.valueOf(serieDetail.get("vote_count").toString()))
                     .backdropPath(serieDetail.get("backdrop_path").toString())
-                    .cast(castSeries)
+                    .cast(creditSeries.getCast())
+                    .crew(creditSeries.getCrew())
                     .seasons(retrieveSeasons((List<HashMap>) serieDetail.get("seasons")))
                     .build();
             seriesOutput.add(serieEntity);
@@ -48,16 +47,28 @@ public abstract class SerieInitializer {
     private static List<Season> retrieveSeasons(List<HashMap> inputSeasons){
         List<Season> output = new ArrayList<>();
         for(HashMap season: inputSeasons){
-            //String date = season.get("air_date").toString();
+
             Season seasonEntity = Season.builder()
-                    .name(season.get("name").toString())
-                    .overview(season.get("overview").toString())
-                    //.airDate(new Date(date))
-                    .episodeCount(Integer.valueOf(season.get("episode_count").toString()))
-                    .posterPath(season.get("poster_path").toString())
+                    .name(season.get("name") != null ? season.get("name").toString(): "" )
+                    .overview(season.get("overview").toString() != null ? season.get("overview").toString(): "")
+                    .airDate(retrieveDate(season.get("air_date") ))
+                    .episodeCount(season.get("episode_count")!= null ? Integer.valueOf(season.get("episode_count").toString()) : 0)
+                    .posterPath(season.get("poster_path") != null? season.get("poster_path").toString(): "")
                     .build();
             output.add(seasonEntity);
         }
         return output;
+    }
+
+    private static LocalDate retrieveDate(Object inputFromAPI){
+        if(inputFromAPI != null){
+            int year = Integer.valueOf(inputFromAPI.toString().substring(0,4));
+            int month = Integer.valueOf(inputFromAPI.toString().substring(5,7));
+            int day = Integer.valueOf(inputFromAPI.toString().substring(8,10));
+            return LocalDate.of(year,month,day);
+        }
+        else {
+            return LocalDate.now();
+        }
     }
 }
