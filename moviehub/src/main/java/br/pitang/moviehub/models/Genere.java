@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+/*
 @Entity
 @Table(name = "tb_genere")
 @AllArgsConstructor
 @NoArgsConstructor
+ */
 public class Genere {
 
     @Id

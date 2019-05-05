@@ -8,23 +8,26 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Objects;
 
+/*
 @Data
 @Entity
 @Table(name="mtm_cast")
 @AllArgsConstructor
 @NoArgsConstructor
+*/
+
 public class Cast {
 
 
     @EmbeddedId
     private CastID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("programId")
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@MapsId("programId")
     private Program program;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("personId")
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@MapsId("personId")
     private Person person;
 
     @Column(name = "cas_mtm_caracter")

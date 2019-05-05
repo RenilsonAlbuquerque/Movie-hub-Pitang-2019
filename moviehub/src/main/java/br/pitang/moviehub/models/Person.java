@@ -3,18 +3,19 @@ package br.pitang.moviehub.models;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
-
+@Data
 @Entity
 @Table(name="tb_person")
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Person {
+public  class Person {
 
 
     @Id
@@ -50,9 +51,10 @@ public abstract class Person {
     @Column(name = "per_cl_profile_picture")
     private String profilePiturePath;
 
+    /*
 
     @OneToMany(targetEntity = Cast.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cast> cast;
-
+    */
 
 }

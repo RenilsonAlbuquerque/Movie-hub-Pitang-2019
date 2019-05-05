@@ -7,9 +7,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
-
+/*
 @Data
 @MappedSuperclass
+*/
+
 public abstract class Program {
 
     @Id
@@ -25,9 +27,11 @@ public abstract class Program {
     @Column(name = "pro_cl_description", nullable = false)
     private String description;
 
+    /*
     @OneToMany(targetEntity = Cast.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cast> cast;
 
+     */
     /*
     @OneToMany(targetEntity = Person.class,cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Person> crew;
@@ -44,12 +48,13 @@ public abstract class Program {
     @Column(name = "pro_cl_duration")
     private double durationInMinutes;
 
+    /*
     @ManyToMany(targetEntity = Genere.class)
     @JoinTable(name = "mtm_program_generes",
             joinColumns = @JoinColumn(name = "mtm_gen_prog_progId", referencedColumnName = "pro_cl_id"),
             inverseJoinColumns =  @JoinColumn(name = "mtm_gen_prog_genId", referencedColumnName = "gen_cl_id"))
     private Set<Genere> generes;
-
+    */
 
     @Column(name = "pro_cl_vote_average")
     private Double voteAverage;
