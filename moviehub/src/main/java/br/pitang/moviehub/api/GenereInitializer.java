@@ -1,20 +1,50 @@
 package br.pitang.moviehub.api;
 
-import br.pitang.moviehub.models.Genere;
+import br.pitang.moviehub.models.GenereMovie;
+import br.pitang.moviehub.models.GenereSerie;
+import br.pitang.moviehub.repository.GenereMovieDAO;
+import br.pitang.moviehub.repository.GenereSerieDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-public abstract class GenereInitializer {
+@Service
+public  class GenereInitializer {
 
-    public static List<Genere> listAllGeneres(ArrayList<HashMap> programGeneres){
-        List<Genere> output = new ArrayList<Genere>();
-        for (HashMap genre :  programGeneres) {
-            output.add(Genere.builder()
-                    .id(Long.valueOf(genre.get("id").toString()))
-                    .name(genre.get("name").toString())
-                    .build());
+    @Autowired
+    private GenereSerieDAO serieDAO;
+
+    @Autowired
+    private GenereMovieDAO movieDAO;
+
+    public  List<GenereSerie> listSerieGeneres(ArrayList<HashMap> programGeneres){
+        List<GenereSerie> output = new ArrayList<GenereSerie>();
+        for (HashMap genreHash :  programGeneres) {
+            GenereSerie genere = GenereSerie.builder()
+                    .id(Long.valueOf(genreHash.get("id").toString()))
+                    .name(genreHash.get("name").toString())
+                    .build();
+            genere = serieDAO.findById(genere.getId())
+                    .orElse( serieDAO.save(genere) );
+            output.add(genere);
+        }
+        return output;
+    }
+    public List<GenereMovie> listMovieGeneres(ArrayList<HashMap> programGeneres){
+
+        List<GenereMovie> output = new ArrayList<GenereMovie>();
+        for (HashMap genreHash :  programGeneres) {
+             GenereMovie genere = GenereMovie.builder()
+                    .id(Long.valueOf(genreHash.get("id").toString()))
+                    .name(genreHash.get("name").toString())
+                    .build();
+            genere = movieDAO.findById(genere.getId())
+                    .orElse( movieDAO.save(genere) );
+            output.add(genere);
         }
         return output;
     }

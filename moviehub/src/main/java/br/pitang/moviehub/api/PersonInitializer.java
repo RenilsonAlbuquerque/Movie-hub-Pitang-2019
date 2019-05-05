@@ -1,14 +1,22 @@
 package br.pitang.moviehub.api;
 
 import br.pitang.moviehub.models.*;
+import br.pitang.moviehub.repository.PersonDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-public abstract class PersonInitializer {
+@Service
+public class PersonInitializer {
 
-    public static CreditMovie castOfMovie(String movieId)  throws InterruptedException {
+    @Autowired
+    private PersonDAO personDAO;
+
+    public  CreditMovie castOfMovie(String movieId)  throws InterruptedException {
         ArrayList<CastMovie> outputCast = new ArrayList<>();
         ArrayList<CrewMovie> outputCrew = new ArrayList<>();
 
@@ -28,11 +36,11 @@ public abstract class PersonInitializer {
         for (HashMap credit : (List<HashMap>) creditsRequest.get("crew")) {
             CrewMovie.builder()
                     .id(
-                            CastID.builder().
+                            CrewID.builder().
                                     personId(Long.valueOf(credit.get("id").toString()))
+                                    .job(credit.get("job").toString())
                                     .build())
                     .person(buildPerson(credit))
-                    .job(credit.get("job").toString())
                     .department(credit.get("department").toString())
                     .build();
         }
@@ -42,7 +50,7 @@ public abstract class PersonInitializer {
                 .build();
     }
 
-    public static CreditSerie castOfSerie(String serieId)  throws InterruptedException {
+    public CreditSerie castOfSerie(String serieId)  throws InterruptedException {
         ArrayList<CastSerie> outputCast = new ArrayList<>();
         ArrayList<CrewSerie> outputCrew = new ArrayList<>();
 
@@ -65,18 +73,18 @@ public abstract class PersonInitializer {
             outputCrew.add(
                     CrewSerie.builder()
                             .id(
-                                    CastID.builder().
+                                    CrewID.builder().
                                             personId(Long.valueOf(credit.get("id").toString()))
+                                            .job(credit.get("job").toString())
                                             .build())
                             .person(buildPerson(credit))
-                            .job(credit.get("job").toString())
                             .department(credit.get("department").toString())
                             .build());
         }
 
         return CreditSerie.builder().cast(outputCast).crew(outputCrew).build();
     }
-    private static Person buildPerson(HashMap credit) throws InterruptedException{
+    private Person buildPerson(HashMap credit) throws InterruptedException{
         HashMap personDetail = ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/person/"
                 + credit.get("id") + "?api_key="
                 + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
@@ -95,7 +103,8 @@ public abstract class PersonInitializer {
                 .genre(Genre.valueOf((int) personDetail.get("gender")))
                 .profilePiturePath((personDetail.get("profile_path")) != null ? personDetail.get("profile_path").toString() : "")
                 .build();
-
+        personEntity = personDAO.findById(personEntity.getId())
+                .orElse( personDAO.save(personEntity) );
         return personEntity;
     }
 

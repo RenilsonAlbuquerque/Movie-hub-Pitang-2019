@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class CrewMovie implements Serializable {
 
     @EmbeddedId
-    private CastID id;
+    private CrewID id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId("programId")
@@ -30,6 +30,4 @@ public class CrewMovie implements Serializable {
     @Column(name = "cre_mtm_department")
     private String department;
 
-    @Column(name = "cre_mtm_job")
-    private String job;
 }

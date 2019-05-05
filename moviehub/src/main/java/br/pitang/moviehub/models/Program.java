@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.List;
+
 
 
 @Data
@@ -38,12 +38,6 @@ public abstract class Program implements Serializable {
 
     @Column(name = "pro_cl_duration")
     private double durationInMinutes;
-
-    @ManyToMany(targetEntity = Genere.class, cascade = CascadeType.ALL)
-    @JoinTable(name = "mtm_program_generes",
-            joinColumns = @JoinColumn(name = "mtm_gen_prog_progId", referencedColumnName = "pro_cl_id"),
-            inverseJoinColumns =  @JoinColumn(name = "mtm_gen_prog_genId", referencedColumnName = "gen_cl_id"))
-    private List<Genere> generes;
 
 
     @Column(name = "pro_cl_vote_average")

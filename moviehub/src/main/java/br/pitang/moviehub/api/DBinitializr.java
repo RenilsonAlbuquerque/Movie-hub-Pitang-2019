@@ -23,18 +23,22 @@ public class DBinitializr {
 
     private SerieDAO serieDAO;
     private MovieDAO movieDAO;
+    private MovieInitializer movieInitializer;
+    private SerieInitializer serieInitializer;
 
 
     @Autowired
-    public DBinitializr(SerieDAO serieDAO, MovieDAO movieDAO){
+    public DBinitializr(SerieDAO serieDAO, MovieDAO movieDAO, MovieInitializer movieInitializer, SerieInitializer serieInitializer){
         this.movieDAO = movieDAO;
         this.serieDAO = serieDAO;
+        this.movieInitializer = movieInitializer;
+        this.serieInitializer = serieInitializer;
     }
 
     @Scheduled(fixedDelay = 800000, initialDelay = 1000)
     public void doRequests()throws InterruptedException{
-        serieDAO.saveAll(SerieInitializer.listSeries());
-        movieDAO.saveAll(MovieInitializer.listMovies());
+        serieDAO.saveAll(serieInitializer.listSeries(serieDAO));
+        movieDAO.saveAll(movieInitializer.listMovies(movieDAO));
     }
 
 

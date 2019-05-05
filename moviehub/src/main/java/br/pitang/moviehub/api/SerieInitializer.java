@@ -1,13 +1,31 @@
 package br.pitang.moviehub.api;
 
 import br.pitang.moviehub.models.*;
+import br.pitang.moviehub.repository.CastSerieDAO;
+import br.pitang.moviehub.repository.CrewSerieDAO;
+import br.pitang.moviehub.repository.SerieDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
 
-public abstract class SerieInitializer {
+@Service
+public class SerieInitializer {
 
-    public static List<Serie> listSeries() throws InterruptedException {
+    @Autowired
+    private PersonInitializer personInitializer;
+
+    @Autowired
+    private GenereInitializer genereInitializer;
+
+    @Autowired
+    private CastSerieDAO castSerieDAO;
+
+    @Autowired
+    private CrewSerieDAO crewSerieDAO;
+
+    public List<Serie> listSeries(SerieDAO serieDAO) throws InterruptedException {
         List<Serie> seriesOutput = new ArrayList<>();
 
         //Request Series
@@ -20,8 +38,8 @@ public abstract class SerieInitializer {
                     + serie.get("id") + "?api_key="
                     + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
 
-            CreditSerie creditSeries = PersonInitializer.castOfSerie(serie.get("id").toString());
-            List<Genere> genres = GenereInitializer.listAllGeneres((ArrayList<HashMap>) serieDetail.get("genres"));
+            CreditSerie creditSeries = personInitializer.castOfSerie(serie.get("id").toString());
+            List<GenereSerie> genres = genereInitializer.listSerieGeneres((ArrayList<HashMap>) serieDetail.get("genres"));
 
             Serie serieEntity = Serie.builder()
                     .title(serieDetail.get("original_name").toString())
@@ -34,16 +52,24 @@ public abstract class SerieInitializer {
                     .voteAverage(Double.valueOf(serieDetail.get("vote_average").toString()))
                     .voteCount(Long.valueOf(serieDetail.get("vote_count").toString()))
                     .backdropPath(serieDetail.get("backdrop_path").toString())
-                    .cast(creditSeries.getCast())
-                    .crew(creditSeries.getCrew())
                     .seasons(retrieveSeasons((List<HashMap>) serieDetail.get("seasons")))
                     .build();
-            for(CastSerie cast: serieEntity.getCast()){
+
+
+            serieEntity = serieDAO.save(serieEntity);
+
+
+            for(CastSerie cast: creditSeries.getCast()){
                 cast.setSerie(serieEntity);
+                castSerieDAO.save(cast);
             }
-            for(CrewSerie crew: serieEntity.getCrew()){
+            for(CrewSerie crew: creditSeries.getCrew()){
                 crew.setSerie(serieEntity);
+                crewSerieDAO.save(crew);
             }
+            //serieEntity = serieDAO.save(serieEntity);
+            //serieEntity = serieDAO.findById(serieEntity.getId()).orElse( serieDAO.save(serieEntity) );
+
             seriesOutput.add(serieEntity);
             System.out.println(serieEntity.getTitle());
             break;

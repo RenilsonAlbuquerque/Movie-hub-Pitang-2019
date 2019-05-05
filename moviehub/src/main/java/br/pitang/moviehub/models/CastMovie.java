@@ -34,18 +34,20 @@ public class CastMovie implements Cast, Serializable {
     @Column(name = "cas_mtm_caracter")
     private String character;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CastMovie cast = (CastMovie) o;
-        return id.equals(cast.id);
+        CastMovie castMovie = (CastMovie) o;
+        return Objects.equals(id, castMovie.id) &&
+                Objects.equals(movie, castMovie.movie) &&
+                Objects.equals(person, castMovie.person) &&
+                Objects.equals(character, castMovie.character);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, movie, person, character);
     }
 
     @Override

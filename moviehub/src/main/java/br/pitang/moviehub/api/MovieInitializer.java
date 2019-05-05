@@ -2,14 +2,32 @@ package br.pitang.moviehub.api;
 
 
 import br.pitang.moviehub.models.*;
+import br.pitang.moviehub.repository.CastMovieDAO;
+import br.pitang.moviehub.repository.CrewMovieDAO;
+import br.pitang.moviehub.repository.MovieDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class MovieInitializer {
+@Service
+public class MovieInitializer {
 
-    public static List<Movie> listMovies() throws InterruptedException {
+    @Autowired
+    private PersonInitializer personInitializer;
+
+    @Autowired
+    private GenereInitializer genereInitializer;
+
+    @Autowired
+    private CastMovieDAO castMovieDAO;
+
+    @Autowired
+    private CrewMovieDAO crewMovieDAO;
+
+    public List<Movie> listMovies(MovieDAO movieDAO) throws InterruptedException {
         List<Movie> moviesOutput = new ArrayList<>();
 
         //Request Movies
@@ -21,8 +39,8 @@ public abstract class MovieInitializer {
             HashMap movieDetail = ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/movie/" + movie.get("id") + "?api_key="
                     + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
 
-            CreditMovie creditMovie = PersonInitializer.castOfMovie(movie.get("id").toString());
-            List<Genere> genres = GenereInitializer.listAllGeneres((ArrayList<HashMap>) movieDetail.get("genres"));
+            CreditMovie creditMovie = personInitializer.castOfMovie(movie.get("id").toString());
+            List<GenereMovie> genres = genereInitializer.listMovieGeneres((ArrayList<HashMap>) movieDetail.get("genres"));
 
             Movie movieEntity = Movie.builder()
                     .title(movieDetail.get("title").toString())
@@ -36,16 +54,21 @@ public abstract class MovieInitializer {
                     .voteCount(Long.valueOf(movieDetail.get("vote_count").toString()))
                     .backdropPath(movieDetail.get("poster_path").toString())
                     .tagline(movieDetail.get("tagline").toString())
-                    .cast(creditMovie.getCast())
-                    .crew(creditMovie.getCrew())
                     .build();
 
-            for(CastMovie cast: movieEntity.getCast()){
+
+           movieEntity = movieDAO.save(movieEntity);
+
+            for(CastMovie cast: creditMovie.getCast()){
                 cast.setMovie(movieEntity);
+                castMovieDAO.save(cast);
             }
-            for(CrewMovie crew: movieEntity.getCrew()){
+            for(CrewMovie crew: creditMovie.getCrew()){
                 crew.setMovie(movieEntity);
+                crewMovieDAO.save(crew);
             }
+            //movieEntity = movieDAO.findById(movieEntity.getId()).orElse( movieDAO.save(movieEntity) );
+
             moviesOutput.add(movieEntity);
             System.out.println(movieEntity.getTitle());
             break;

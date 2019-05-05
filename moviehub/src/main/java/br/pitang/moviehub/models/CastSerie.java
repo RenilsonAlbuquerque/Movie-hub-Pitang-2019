@@ -34,20 +34,21 @@ public class CastSerie implements Cast, Serializable {
     @Column(name = "cas_mtm_caracter")
     private String character;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CastSerie cast = (CastSerie) o;
-        return id.equals(cast.id);
+        CastSerie castSerie = (CastSerie) o;
+        return Objects.equals(id, castSerie.id) &&
+                Objects.equals(serie, castSerie.serie) &&
+                Objects.equals(person, castSerie.person) &&
+                Objects.equals(character, castSerie.character);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, serie, person, character);
     }
-
 
     @Override
     public CastID id() {
