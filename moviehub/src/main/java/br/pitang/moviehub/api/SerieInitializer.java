@@ -71,6 +71,7 @@ public class SerieInitializer {
 
                 seriesOutput.add(serieEntity);
                 System.out.println(serieEntity.getTitle());
+                break;
             }
         }
         return seriesOutput;

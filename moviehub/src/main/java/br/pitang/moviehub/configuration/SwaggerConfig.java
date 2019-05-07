@@ -14,16 +14,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+public class SwaggerConfig {
 
     @Bean
     public Docket grettingApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("br.pitang.moviehub.controllers"))
-                .build()
-                .apiInfo(metaData());
+                .build();
+                //.apiInfo(metaData());
     }
+    /*
     private ApiInfo metaData(){
         return new ApiInfoBuilder()
                 .title("Pitang Movie Hub")
@@ -31,7 +32,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .version("1.0.0")
                 .build();
     }
-
+    */
+    /*
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/api/v2/api-docs", "/v2/api-docs");
@@ -45,4 +47,6 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/api/swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
         registry.addResourceHandler("/api/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+    */
+
 }
