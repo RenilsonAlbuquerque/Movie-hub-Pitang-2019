@@ -18,13 +18,13 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Serie extends Program{
 
-    @ManyToMany(targetEntity = GenereSerie.class, cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "mtm_serie_generes",
             joinColumns = @JoinColumn(name = "mtm_gen_prog_progId", referencedColumnName = "pro_cl_id"),
             inverseJoinColumns =  @JoinColumn(name = "mtm_gen_prog_genId", referencedColumnName = "gen_cl_id"))
     private List<GenereSerie> generes;
 
-    @OneToMany(targetEntity = Season.class,mappedBy = "serie",cascade = CascadeType.ALL , orphanRemoval = true)
+    @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Season> seasons;
 
     @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -1,6 +1,8 @@
 package br.pitang.moviehub.models;
 
 
+import br.pitang.moviehub.models.embedded.CastMovieID;
+import br.pitang.moviehub.models.embedded.CastSerieID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,17 +19,17 @@ import java.util.Objects;
 @Table(name="mtm_cast_movie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastMovie implements Cast, Serializable {
+public class CastMovie implements  Serializable {
 
 
     @EmbeddedId
-    private CastID id;
+    private CastMovieID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @MapsId("programId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("movieId")
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("personId")
     private Person person;
 
@@ -39,29 +41,11 @@ public class CastMovie implements Cast, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CastMovie castMovie = (CastMovie) o;
-        return Objects.equals(id, castMovie.id) &&
-                Objects.equals(movie, castMovie.movie) &&
-                Objects.equals(person, castMovie.person) &&
-                Objects.equals(character, castMovie.character);
+        return Objects.equals(id, castMovie.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movie, person, character);
-    }
-
-    @Override
-    public CastID id() {
-        return this.id;
-    }
-
-    @Override
-    public Program getProgram() {
-        return this.movie;
-    }
-
-    @Override
-    public String getRole() {
-        return this.getCharacter();
+        return Objects.hash(id);
     }
 }

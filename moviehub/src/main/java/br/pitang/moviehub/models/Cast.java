@@ -1,14 +1,13 @@
 package br.pitang.moviehub.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import br.pitang.moviehub.models.embedded.CastSerieID;
 
 
 public interface Cast {
 
 
-    CastID id();
+    CastSerieID id();
     Program getProgram();
     Person getPerson();
     String getRole();

@@ -29,50 +29,49 @@ public class SerieInitializer {
         List<Serie> seriesOutput = new ArrayList<>();
 
         //Request Series
-        List seriesInput = (List) ExternalRequestFactory
-                .doRequest("https://api.themoviedb.org/3/tv/popular?api_key="
-                + ExternalRequestFactory.getTmdbApiKey() +  "&language=pt-Br&page=1").get("results");
-        for(HashMap serie: (ArrayList<HashMap>) seriesInput){
-            //Detalhes da serie
-            HashMap serieDetail = ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/tv/"
-                    + serie.get("id") + "?api_key="
-                    + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
+        for(int paginationIndex = 1; paginationIndex < 2; paginationIndex++) {
+            List seriesInput = (List) ExternalRequestFactory
+                    .doRequest("https://api.themoviedb.org/3/tv/popular?api_key="
+                            + ExternalRequestFactory.getTmdbApiKey() +  "&language=pt-Br&page=" + paginationIndex).get("results");
+            for(HashMap serie: (ArrayList<HashMap>) seriesInput){
+                //Detalhes da serie
+                HashMap serieDetail = ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/tv/"
+                        + serie.get("id") + "?api_key="
+                        + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br");
 
-            CreditSerie creditSeries = personInitializer.castOfSerie(serie.get("id").toString());
-            List<GenereSerie> genres = genereInitializer.listSerieGeneres((ArrayList<HashMap>) serieDetail.get("genres"));
+                CreditSerie creditSeries = personInitializer.castOfSerie(serie.get("id").toString());
+                List<GenereSerie> genres = genereInitializer.listSerieGeneres((ArrayList<HashMap>) serieDetail.get("genres"));
 
-            Serie serieEntity = Serie.builder()
-                    .title(serieDetail.get("original_name").toString())
-                    .description(serieDetail.get("overview").toString())
-                    .country(((List<String>) serieDetail.get("origin_country")).get(0).toString())
-                    .language(serieDetail.get("original_language").toString())
-                    .releaseyear(Long.valueOf(serieDetail.get("first_air_date").toString().substring(0, 4)))
-                    .durationInMinutes(Double.valueOf(((List<Integer>) serieDetail.get("episode_run_time")).get(0).toString()))
-                    .generes(genres)
-                    .voteAverage(Double.valueOf(serieDetail.get("vote_average").toString()))
-                    .voteCount(Long.valueOf(serieDetail.get("vote_count").toString()))
-                    .backdropPath(serieDetail.get("backdrop_path").toString())
-                    .seasons(retrieveSeasons((List<HashMap>) serieDetail.get("seasons")))
-                    .build();
-
-
-            serieEntity = serieDAO.save(serieEntity);
+                Serie serieEntity = Serie.builder()
+                        .title(serieDetail.get("original_name").toString())
+                        .description(serieDetail.get("overview").toString())
+                        .country(((List<String>) serieDetail.get("origin_country")).get(0).toString())
+                        .language(serieDetail.get("original_language").toString())
+                        .releaseyear(Long.valueOf(serieDetail.get("first_air_date").toString().substring(0, 4)))
+                        .durationInMinutes(Double.valueOf(((List<Integer>) serieDetail.get("episode_run_time")).get(0).toString()))
+                        .generes(genres)
+                        .voteAverage(Double.valueOf(serieDetail.get("vote_average").toString()))
+                        .voteCount(Long.valueOf(serieDetail.get("vote_count").toString()))
+                        .backdropPath(serieDetail.get("backdrop_path").toString())
+                        .seasons(retrieveSeasons((List<HashMap>) serieDetail.get("seasons")))
+                        .build();
 
 
-            for(CastSerie cast: creditSeries.getCast()){
-                cast.setSerie(serieEntity);
-                castSerieDAO.save(cast);
+                serieEntity = serieDAO.save(serieEntity);
+
+
+                for(CastSerie cast: creditSeries.getCast()){
+                    cast.setSerie(serieEntity);
+                    castSerieDAO.save(cast);
+                }
+                for(CrewSerie crew: creditSeries.getCrew()){
+                    crew.setSerie(serieEntity);
+                    crewSerieDAO.save(crew);
+                }
+
+                seriesOutput.add(serieEntity);
+                System.out.println(serieEntity.getTitle());
             }
-            for(CrewSerie crew: creditSeries.getCrew()){
-                crew.setSerie(serieEntity);
-                crewSerieDAO.save(crew);
-            }
-            //serieEntity = serieDAO.save(serieEntity);
-            //serieEntity = serieDAO.findById(serieEntity.getId()).orElse( serieDAO.save(serieEntity) );
-
-            seriesOutput.add(serieEntity);
-            System.out.println(serieEntity.getTitle());
-            break;
         }
         return seriesOutput;
     }

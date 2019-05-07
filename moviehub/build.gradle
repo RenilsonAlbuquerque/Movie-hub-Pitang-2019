@@ -22,21 +22,22 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.6'
 	annotationProcessor 'org.projectlombok:lombok:1.18.6'
 
-	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	//MySql
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
 
 
-	// https://mvnrepository.com/artifact/com.google.http-client/google-http-client
+	//Google
 	compile group: 'com.google.http-client', name: 'google-http-client', version: '1.29.1'
-
-
-	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
 	// https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path
 	compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
 
 
+	//swagger
+	compile 'javax.xml.bind:jaxb-api:2.3.0'
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
 
 

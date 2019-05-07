@@ -1,4 +1,4 @@
-package br.pitang.moviehub.models;
+package br.pitang.moviehub.models.embedded;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,10 +16,10 @@ import java.util.Objects;
 @Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
-public class CrewID implements Serializable {
+public class CrewSerieID implements Serializable {
 
-    @Column(name = "cre_program_id")
-    private Long programId;
+    @Column(name = "cre_serie_id")
+    private Long serieId;
 
     @Column(name = "cre_person_id")
     private Long personId;
@@ -31,14 +31,14 @@ public class CrewID implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CrewID crewID = (CrewID) o;
-        return Objects.equals(programId, crewID.programId) &&
+        CrewSerieID crewID = (CrewSerieID) o;
+        return Objects.equals(serieId, crewID.serieId) &&
                 Objects.equals(personId, crewID.personId) &&
                 Objects.equals(job, crewID.job);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(programId, personId, job);
+        return Objects.hash(serieId, personId, job);
     }
 }

@@ -3,20 +3,23 @@ package br.pitang.moviehub.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity
+@Data
 @Builder
+@Entity
 @Table(name = "tb_season")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Season {
 
     @Id
+    @Column(name = "sea_cl_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -36,7 +39,7 @@ public class Season {
     private String posterPath;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="sea_tb_serieId")
+    @JoinColumn(name = "ser_key_id")
     private Serie serie;
 
 

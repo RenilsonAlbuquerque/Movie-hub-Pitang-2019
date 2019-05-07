@@ -1,6 +1,7 @@
 package br.pitang.moviehub.models;
 
 
+import br.pitang.moviehub.models.embedded.CastSerieID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,14 +18,14 @@ import java.util.Objects;
 @Table(name="mtm_cast_serie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastSerie implements Cast, Serializable {
+public class CastSerie implements  Serializable {
 
 
     @EmbeddedId
-    private CastID id;
+    private CastSerieID id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @MapsId("programId")
+    @MapsId("serieId")
     private Serie serie;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -50,18 +51,4 @@ public class CastSerie implements Cast, Serializable {
         return Objects.hash(id, serie, person, character);
     }
 
-    @Override
-    public CastID id() {
-        return this.id;
-    }
-
-    @Override
-    public Program getProgram() {
-        return this.serie;
-    }
-
-    @Override
-    public String getRole() {
-        return this.character;
-    }
 }

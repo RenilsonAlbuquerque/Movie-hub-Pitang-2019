@@ -1,6 +1,10 @@
 package br.pitang.moviehub.api;
 
 import br.pitang.moviehub.models.*;
+import br.pitang.moviehub.models.embedded.CastMovieID;
+import br.pitang.moviehub.models.embedded.CastSerieID;
+import br.pitang.moviehub.models.embedded.CrewMovieID;
+import br.pitang.moviehub.models.embedded.CrewSerieID;
 import br.pitang.moviehub.repository.PersonDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonInitializer {
@@ -26,7 +29,7 @@ public class PersonInitializer {
         for (HashMap credit : (List<HashMap>) creditsRequest.get("cast")) {
             CastMovie.builder()
                     .id(
-                            CastID.builder().
+                            CastMovieID.builder().
                                     personId(Long.valueOf(credit.get("id").toString()))
                                     .build())
                     .person(buildPerson(credit))
@@ -36,7 +39,7 @@ public class PersonInitializer {
         for (HashMap credit : (List<HashMap>) creditsRequest.get("crew")) {
             CrewMovie.builder()
                     .id(
-                            CrewID.builder().
+                            CrewMovieID.builder().
                                     personId(Long.valueOf(credit.get("id").toString()))
                                     .job(credit.get("job").toString())
                                     .build())
@@ -61,7 +64,7 @@ public class PersonInitializer {
             outputCast.add(
                     CastSerie.builder()
                             .id(
-                                    CastID.builder().
+                                    CastSerieID.builder().
                                             personId(Long.valueOf(credit.get("id").toString()))
                                             .build())
                             .person(buildPerson(credit))
@@ -73,7 +76,7 @@ public class PersonInitializer {
             outputCrew.add(
                     CrewSerie.builder()
                             .id(
-                                    CrewID.builder().
+                                    CrewSerieID.builder().
                                             personId(Long.valueOf(credit.get("id").toString()))
                                             .job(credit.get("job").toString())
                                             .build())
