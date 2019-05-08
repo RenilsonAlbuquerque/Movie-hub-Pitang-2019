@@ -1,22 +1,19 @@
-package br.pitang.moviehub.models;
+package br.pitang.programhub.model;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Data
-@Builder
+
+
 @Entity
 @Table(name = "tb_season")
-@AllArgsConstructor
-@NoArgsConstructor
 public class Season {
 
     @Id
@@ -30,8 +27,7 @@ public class Season {
     @Column(name = "sea_cl_overview", length = 2500)
     private String overview;
 
-    @Column(name = "sea_cl_air_date")
-    private LocalDate airDate;
+
 
     @Column(name = "sea_cl_episodes")
     private int episodeCount;
@@ -56,5 +52,57 @@ public class Season {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Season(){
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public int getEpisodeCount() {
+        return episodeCount;
+    }
+
+    public void setEpisodeCount(int episodeCount) {
+        this.episodeCount = episodeCount;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
 }
