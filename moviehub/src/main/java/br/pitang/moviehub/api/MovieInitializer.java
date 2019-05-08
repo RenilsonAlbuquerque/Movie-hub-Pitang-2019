@@ -72,7 +72,6 @@ public class MovieInitializer {
 
                 moviesOutput.add(movieEntity);
                 System.out.println(movieEntity.getTitle());
-                break;
             }
 
         }
