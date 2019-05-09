@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieOverview } from 'src/app/models/movie-overview';
+import { ProgramOverview } from 'src/app/models/program-overview';
 import { MovieService } from '../movie.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-list',
@@ -9,9 +10,9 @@ import { MovieService } from '../movie.service';
 })
 export class MovieListComponent implements OnInit {
 
-  public movies: MovieOverview[];
+  public movies: ProgramOverview[];
 
-  constructor(private movieService: MovieService) { }
+  constructor(private movieService: MovieService, private router: Router) { }
 
   ngOnInit() {
     this.movieService.getOverview().subscribe(
@@ -20,7 +21,7 @@ export class MovieListComponent implements OnInit {
   }
 
   goEdit(movie){
-
+    this.router.navigate(['home/movie/detail', movie.id])
   }
 
 }

@@ -32,7 +32,7 @@ public class MovieInitializer {
 
         //Request Movies
         for(int paginationIndex = 1; paginationIndex < 2; paginationIndex++){
-            List moviesInput = (List) ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/movie/top_rated?api_key="
+            List moviesInput = (List) ExternalRequestFactory.doRequest("https://api.themoviedb.org/3/movie/popular?api_key="
                     + ExternalRequestFactory.getTmdbApiKey() + "&language=pt-Br&page=" + paginationIndex).get("results");
             for (HashMap movie : (ArrayList<HashMap>) moviesInput) {
 
