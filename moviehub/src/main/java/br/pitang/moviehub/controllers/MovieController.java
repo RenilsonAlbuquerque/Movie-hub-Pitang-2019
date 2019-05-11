@@ -3,11 +3,13 @@ package br.pitang.moviehub.controllers;
 import br.pitang.moviehub.dto.MovieDetailDTO;
 import br.pitang.moviehub.dto.MovieOverviewDTO;
 import br.pitang.moviehub.dto.PaginationFilter;
-import br.pitang.moviehub.dto.SerieDetailDTO;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
 import br.pitang.moviehub.service.MovieService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -34,4 +36,22 @@ public class MovieController {
         return new ResponseEntity<MovieDetailDTO>(movieService.findOneById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado")), HttpStatus.OK);
     }
+    @PostMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Page<MovieOverviewDTO>> filter(@RequestBody PaginationFilter filter,
+    													@RequestParam(required = false) String title,
+    													@RequestParam(required = false) Integer year,
+    													@RequestParam(required = false) String language){
+    	HashMap<String,Object> queryParams = new HashMap<String,Object>();
+    	if(title != null) {
+    		queryParams.put("title", title);
+    	}
+    	if(year != null)
+    		queryParams.put("releaseYear", year);
+    	if(language != null)
+    		queryParams.put("language", language);
+    	
+    	 return new ResponseEntity<Page
+    			 <MovieOverviewDTO>>(movieService.searchMovie(queryParams,filter), HttpStatus.OK);
+    }
+   
 }

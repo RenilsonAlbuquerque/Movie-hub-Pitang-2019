@@ -1,4 +1,7 @@
-@import "node_modules/bootstrap/scss/bootstrap";
+
+
+
+$icon-font-path: '../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
 
 
 $primary: Red;
@@ -9,7 +12,6 @@ $warning: grey;
 $danger: brown;
 $light:orange;
 $dark: black;
-
 $theme-colors: map-merge((
   primary: green,
   secondary: $gray-600,
@@ -20,3 +22,6 @@ $theme-colors: map-merge((
   light: $gray-100,
   dark: $gray-800
 ), $theme-colors);
+$theme-colors: map-remove($theme-colors, "success", "info", "danger");
+
+@import "node_modules/bootstrap/scss/bootstrap";
