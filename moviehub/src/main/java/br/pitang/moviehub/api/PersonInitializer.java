@@ -104,6 +104,7 @@ public class PersonInitializer {
                 .birthCity(birthCityString)
                 .countryWhereLive(countryString)
                 .genre(Genre.valueOf((int) personDetail.get("gender")))
+                .popularity(Double.valueOf(personDetail.get("popularity").toString()))
                 .profilePiturePath((personDetail.get("profile_path")) != null ? personDetail.get("profile_path").toString() : "")
                 .build();
         personEntity = personDAO.findById(personEntity.getId())

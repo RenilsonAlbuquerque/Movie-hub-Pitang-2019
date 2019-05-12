@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,9 @@ public class MovieService {
 
     public Page<MovieOverviewDTO> listAllSeriesCover(PaginationFilter filter){
 
-        return new PageImpl<MovieOverviewDTO>(movieDAO.findAll(PageRequest.of(filter.getPage(), filter.getSize())).stream()
-                .map( movie -> MovieOverviewDTO.builder()
+        return new PageImpl<MovieOverviewDTO>(
+        		movieDAO.findAll(PageRequest.of(filter.getPage(), filter.getSize(),Sort.by("popularity").descending()))
+        		.stream().map( movie -> MovieOverviewDTO.builder()
                         .id(movie.getId())
                         .title(movie.getTitle())
                         .backdropPath(movie.getBackdropPath())

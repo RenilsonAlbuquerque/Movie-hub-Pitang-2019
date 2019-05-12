@@ -42,13 +42,9 @@ public class MovieController {
     													@RequestParam(required = false) Integer year,
     													@RequestParam(required = false) String language){
     	HashMap<String,Object> queryParams = new HashMap<String,Object>();
-    	if(title != null) {
-    		queryParams.put("title", title);
-    	}
-    	if(year != null)
-    		queryParams.put("releaseYear", year);
-    	if(language != null)
-    		queryParams.put("language", language);
+    	if(title != null) {queryParams.put("title", title);}
+    	if(year != null) {queryParams.put("releaseYear", year);}
+    	if(language != null) {queryParams.put("language", language);}
     	
     	 return new ResponseEntity<Page
     			 <MovieOverviewDTO>>(movieService.searchMovie(queryParams,filter), HttpStatus.OK);

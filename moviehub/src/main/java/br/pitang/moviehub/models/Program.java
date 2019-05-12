@@ -23,8 +23,8 @@ public abstract class Program implements Serializable {
     @Column(name = "pro_cl_title", nullable = false)
     private String title;
 
-    @NotEmpty
-    @Column(name = "pro_cl_description", nullable = false, length = 2500)
+ 
+    @Column(name = "pro_cl_description", length = 2500)
     private String description;
 
     @Column(name = "pro_cl_country")
@@ -48,5 +48,8 @@ public abstract class Program implements Serializable {
 
     @Column(name = "pro_cl_backdrop_path")
     private String backdropPath;
+    
+    @Column(name = "pro_cl_popularity")
+    private Double popularity;
 
 }

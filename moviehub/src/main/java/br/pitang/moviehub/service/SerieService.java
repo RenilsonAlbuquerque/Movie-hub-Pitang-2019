@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -27,7 +27,7 @@ public class SerieService {
 
     public Page<SerieOverviewDTO> listAllSeriesCover(PaginationFilter filter){
 
-        return new PageImpl<SerieOverviewDTO> (serieDAO.findAll(PageRequest.of(filter.getPage(), filter.getSize())).stream()
+        return new PageImpl<SerieOverviewDTO> (serieDAO.findAll(PageRequest.of(filter.getPage(), filter.getSize(),Sort.by("popularity").descending())).stream()
                 .map( serie -> SerieOverviewDTO.builder()
                         .id(serie.getId())
                         .title(serie.getTitle())

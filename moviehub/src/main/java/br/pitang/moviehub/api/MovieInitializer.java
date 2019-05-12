@@ -54,6 +54,7 @@ public class MovieInitializer {
                         .voteAverage(Double.valueOf(movieDetail.get("vote_average").toString()))
                         .voteCount(Long.valueOf(movieDetail.get("vote_count").toString()))
                         .backdropPath(movieDetail.get("poster_path").toString())
+                        .popularity(Double.valueOf(movieDetail.get("popularity").toString()))
                         .tagline(movieDetail.get("tagline").toString())
                         .build();
 

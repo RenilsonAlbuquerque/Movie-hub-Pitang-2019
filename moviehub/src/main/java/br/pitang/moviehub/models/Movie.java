@@ -39,7 +39,7 @@ public class Movie extends Program{
     @Builder
     public Movie(String title, String description, String country, String language, Long releaseyear,
                  double durationInMinutes, List<GenereMovie> generes, Double voteAverage, Long voteCount,
-                 String backdropPath, String tagline, List<CastMovie> cast, List<CrewMovie> crew){
+                 String backdropPath,Double popularity, String tagline, List<CastMovie> cast, List<CrewMovie> crew){
         super();
         super.setTitle(title);
         super.setDescription(description);
@@ -50,6 +50,7 @@ public class Movie extends Program{
         super.setVoteAverage(voteAverage);
         super.setVoteCount(voteCount);
         super.setBackdropPath(backdropPath);
+        super.setPopularity(popularity);
         this.setTagline(tagline);
         this.setGeneres(generes);
         this.setCast(cast);

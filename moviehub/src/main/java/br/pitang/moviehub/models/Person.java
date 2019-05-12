@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -49,16 +52,20 @@ public class Person {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "per_cl_genre")
     private Genre genre;
+    
+    @Column(name = "per_cl_popularity")
+    private Double popularity;
 
     @Column(name = "per_cl_profile_picture")
     private String profilePiturePath;
 
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "person")
     private List<CastSerie> castSeries;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "person")
     private List<CastMovie> castMovie;
 

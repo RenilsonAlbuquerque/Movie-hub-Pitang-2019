@@ -43,7 +43,7 @@ public class SerieInitializer {
                 List<GenereSerie> genres = genereInitializer.listSerieGeneres((ArrayList<HashMap>) serieDetail.get("genres"));
 
                 Serie serieEntity = Serie.builder()
-                        .title(serieDetail.get("original_name").toString())
+                        .title(serieDetail.get("name").toString())
                         .description(serieDetail.get("overview").toString())
                         .country(((List<String>) serieDetail.get("origin_country")).get(0).toString())
                         .language(serieDetail.get("original_language").toString())
@@ -53,6 +53,7 @@ public class SerieInitializer {
                         .voteAverage(Double.valueOf(serieDetail.get("vote_average").toString()))
                         .voteCount(Long.valueOf(serieDetail.get("vote_count").toString()))
                         .backdropPath(serieDetail.get("backdrop_path").toString())
+                        .popularity(Double.valueOf(serieDetail.get("popularity").toString()))
                         .seasons(retrieveSeasons((List<HashMap>) serieDetail.get("seasons")))
                         .build();
 

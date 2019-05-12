@@ -36,7 +36,7 @@ public class Serie extends Program{
     @Builder
     public Serie(String title, String description, String country, String language, Long releaseyear,
                  double durationInMinutes, List<GenereSerie> generes, Double voteAverage, Long voteCount,
-                 String backdropPath, List<CastSerie> cast, List<Season> seasons, List<CrewSerie> crew){
+                 String backdropPath,Double popularity, List<CastSerie> cast, List<Season> seasons, List<CrewSerie> crew){
         super();
         super.setTitle(title);
         super.setDescription(description);
@@ -47,6 +47,7 @@ public class Serie extends Program{
         super.setVoteAverage(voteAverage);
         super.setVoteCount(voteCount);
         super.setBackdropPath(backdropPath);
+        super.setPopularity(popularity);
         this.setGeneres(generes);
         this.setSeasons(seasons);
         this.setCast(cast);
