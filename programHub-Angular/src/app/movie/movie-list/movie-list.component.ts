@@ -12,14 +12,15 @@ import { Page } from 'src/app/models/page';
 export class MovieListComponent implements OnInit {
 
   public page: Page<ProgramOverview>;
-  public currentPage: number;
+  public search: String;
 
   constructor(private movieService: MovieService, private router: Router) { }
 
   ngOnInit() {
-    this.currentPage = 1;
-    this.movieService.getOverview(this.currentPage).subscribe(
-        response => (this.page = response)  
+    
+    this.search = "";
+    this.movieService.getOverview(1).subscribe(
+        response => (this.page = response,console.log(response))  
     )
   }
 
@@ -27,7 +28,12 @@ export class MovieListComponent implements OnInit {
     this.router.navigate(['home/movie/detail', movie.id])
   }
   pageChange(){
-    this.movieService.getOverview(this.currentPage).subscribe(
+    this.movieService.getOverview(this.page.currentPageNumber).subscribe(
+      response => (this.page = response)  
+    )
+  }
+  onSearch(){
+    this.movieService.getSearchResult(this.search,1).subscribe(
       response => (this.page = response)  
     )
   }

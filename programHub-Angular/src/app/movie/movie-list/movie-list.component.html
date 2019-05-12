@@ -1,8 +1,11 @@
 
 <div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Procurar" (input)="search = $event.target.value" (keyup)="onSearch()" aria-label="Username" aria-describedby="basic-addon1">
+  </div>
   <div class="col-12">
     <div class="card-columns">
-      <div class="card bg-dark text-white" (click)="goEdit(movie)" *ngFor="let movie of page.content">
+      <div class="card bg-dark text-white" (click)="goEdit(movie)" *ngFor="let movie of page.elements">
        <img class="card-img"
             src="https://image.tmdb.org/t/p/w250_and_h141_face{{ movie.backdropPath }}" alt="_blank" />
         <div class="card-img-overlay">
@@ -12,10 +15,10 @@
     </div>
   </div>
 <ngb-pagination class="d-flex justify-content-center" 
-    [collectionSize]="100" 
-    [(page)]="currentPage" 
-    [pageSize]="10" 
-    [maxSize]="page.totalPages +1" 
+    [collectionSize]="page.totalOfPages" 
+    [(page)]="page.currentPageNumber" 
+    [pageSize]="page.size" 
+    [maxSize]="page.totalOfPages" 
     [rotate]="true" 
     [ellipses]="false" 
     [boundaryLinks]="true"

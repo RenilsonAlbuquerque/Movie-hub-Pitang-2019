@@ -13,9 +13,12 @@ export class MovieService {
   }
 
   getOverview(pageNumber): Observable<Page<ProgramOverview>>{
-    return this.httpClient.post<Page<ProgramOverview>>(`${environment.BASE_URL}movie`,{page:pageNumber -1, size:9});
+    return this.httpClient.post<Page<ProgramOverview>>(`${environment.BASE_URL}movie`,{page:pageNumber, size:9});
   }
   getMovieById(id): Observable<Movie>{
     return this.httpClient.get<Movie>(`${environment.BASE_URL}movie/${id}`);
+  }
+  getSearchResult(searchTitle: String, pageNumber): Observable<Page<ProgramOverview>>{
+    return this.httpClient.post<Page<ProgramOverview>>(`${environment.BASE_URL}movie/filter?title=${searchTitle}`,{page:pageNumber, size:9});
   }
 }

@@ -1,17 +1,16 @@
 package br.pitang.moviehub.service;
 
 
+import br.pitang.moviehub.dto.CustomPage;
 import br.pitang.moviehub.dto.MovieDetailDTO;
 import br.pitang.moviehub.dto.MovieOverviewDTO;
 import br.pitang.moviehub.dto.PaginationFilter;
-import br.pitang.moviehub.dto.SerieDetailDTO;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
 import br.pitang.moviehub.models.Movie;
 import br.pitang.moviehub.models.Program;
 import br.pitang.moviehub.repository.MovieDAO;
 import br.pitang.moviehub.specification.ProgramSpecification;
-import br.pitang.moviehub.specification.SearchCriteria;
-
+import br.pitang.moviehub.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,11 +20,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.persistence.criteria.Predicate;
+
 
 @Service
 public class MovieService {
@@ -33,10 +31,12 @@ public class MovieService {
     @Autowired
     private MovieDAO movieDAO;
 
-    public Page<MovieOverviewDTO> listAllSeriesCover(PaginationFilter filter){
-
-        return new PageImpl<MovieOverviewDTO>(
-        		movieDAO.findAll(PageRequest.of(filter.getPage(), filter.getSize(),Sort.by("popularity").descending()))
+    @SuppressWarnings("unchecked")
+	public CustomPage<MovieOverviewDTO> listAllSeriesCover(PaginationFilter filter){
+    
+    	Page<Movie> page = movieDAO.findAll(PageRequest.of(filter.getPage() -1, filter.getSize(),Sort.by("popularity").descending()));
+        return (CustomPage<MovieOverviewDTO>) Utils.convertPage(page,
+        		page
         		.stream().map( movie -> MovieOverviewDTO.builder()
                         .id(movie.getId())
                         .title(movie.getTitle())
@@ -62,14 +62,15 @@ public class MovieService {
                 );
     }
     
-    public Page<MovieOverviewDTO> searchMovie(HashMap<String, Object> params,PaginationFilter filter){
+    @SuppressWarnings("unchecked")
+	public CustomPage<MovieOverviewDTO> searchMovie(HashMap<String, Object> params,PaginationFilter filter){
     	Specification<Program> specification = ProgramSpecification.searchProgram(params);
     
-    	
-    	return new PageImpl<MovieOverviewDTO>(
-    			this.movieDAO.findAll(specification,PageRequest.of(filter.getPage(), 
-    									filter.getSize())).stream()
-    			.map( movie -> MovieOverviewDTO.builder()
+    	Page<Program> page = this.movieDAO.findAll(specification,PageRequest.of(filter.getPage() -1, 
+				filter.getSize(),Sort.by("popularity").descending()));
+    	return (CustomPage<MovieOverviewDTO>) Utils.convertPage(page,
+        		page
+        		.stream().map( movie -> MovieOverviewDTO.builder()
                         .id(movie.getId())
                         .title(movie.getTitle())
                         .backdropPath(movie.getBackdropPath())

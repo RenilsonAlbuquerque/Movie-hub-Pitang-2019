@@ -1,5 +1,6 @@
 package br.pitang.moviehub.controllers;
 
+import br.pitang.moviehub.dto.CustomPage;
 import br.pitang.moviehub.dto.MovieDetailDTO;
 import br.pitang.moviehub.dto.MovieOverviewDTO;
 import br.pitang.moviehub.dto.PaginationFilter;
@@ -28,8 +29,8 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Page<MovieOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
-        return new ResponseEntity<Page<MovieOverviewDTO>>(movieService.listAllSeriesCover(filter), HttpStatus.OK);
+    public ResponseEntity<CustomPage<MovieOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
+        return new ResponseEntity<CustomPage<MovieOverviewDTO>>(movieService.listAllSeriesCover(filter), HttpStatus.OK);
     }
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<MovieDetailDTO> findOneById(@PathVariable long id){
@@ -37,7 +38,7 @@ public class MovieController {
                 .orElseThrow(() -> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado")), HttpStatus.OK);
     }
     @PostMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Page<MovieOverviewDTO>> filter(@RequestBody PaginationFilter filter,
+    public ResponseEntity<CustomPage<MovieOverviewDTO>> filter(@RequestBody PaginationFilter filter,
     													@RequestParam(required = false) String title,
     													@RequestParam(required = false) Integer year,
     													@RequestParam(required = false) String language){
@@ -46,7 +47,7 @@ public class MovieController {
     	if(year != null) {queryParams.put("releaseYear", year);}
     	if(language != null) {queryParams.put("language", language);}
     	
-    	 return new ResponseEntity<Page
+    	 return new ResponseEntity<CustomPage
     			 <MovieOverviewDTO>>(movieService.searchMovie(queryParams,filter), HttpStatus.OK);
     }
    

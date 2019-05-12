@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import br.pitang.moviehub.dto.CustomPage;
 import br.pitang.moviehub.dto.PaginationFilter;
 import br.pitang.moviehub.dto.PersonOverviewDTO;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
@@ -36,8 +36,8 @@ public class PersonController {
     private PersonService personService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Page<PersonOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
-        return new ResponseEntity<Page<PersonOverviewDTO>>(personService.listAllPersonsCover(filter), HttpStatus.OK);
+    public ResponseEntity<CustomPage<PersonOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
+        return new ResponseEntity<CustomPage<PersonOverviewDTO>>(personService.listAllPersonsCover(filter), HttpStatus.OK);
     }
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Person> findOneById(@PathVariable long id){
@@ -45,12 +45,12 @@ public class PersonController {
                 .orElseThrow(() -> new ResourceNotFoundException("A pessoa com id " + id + " não foi encontrada")), HttpStatus.OK);
     }
     @PostMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Page<PersonOverviewDTO>> filter(@RequestBody PaginationFilter filter,
+    public ResponseEntity<CustomPage<PersonOverviewDTO>> filter(@RequestBody PaginationFilter filter,
     													@RequestParam(required = false) String name){
     	HashMap<String,Object> queryParams = new HashMap<String,Object>();
     	if(name != null) {queryParams.put("name",name);}
     		
-    	 return new ResponseEntity<Page
+    	 return new ResponseEntity<CustomPage
     			 <PersonOverviewDTO>>(personService.filterPerson(queryParams,filter), HttpStatus.OK);
     }
 }
