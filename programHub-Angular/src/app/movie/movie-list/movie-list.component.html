@@ -1,11 +1,26 @@
-<div class="col-12">
-  <div class="card-columns">
-    <div class="card bg-dark text-white" (click)="goEdit(movie)" *ngFor="let movie of movies">
-     <img class="card-img"
-          src="https://image.tmdb.org/t/p/w250_and_h141_face{{ movie.backdropPath }}" alt="_blank" />
-      <div class="card-img-overlay">
-        <p class="card-title">{{ movie.title }}</p>
+
+<div>
+  <div class="col-12">
+    <div class="card-columns">
+      <div class="card bg-dark text-white" (click)="goEdit(movie)" *ngFor="let movie of page.content">
+       <img class="card-img"
+            src="https://image.tmdb.org/t/p/w250_and_h141_face{{ movie.backdropPath }}" alt="_blank" />
+        <div class="card-img-overlay">
+          <p class="card-title">{{ movie.title }}</p>
+        </div>
       </div>
     </div>
   </div>
+<ngb-pagination class="d-flex justify-content-center" 
+    [collectionSize]="100" 
+    [(page)]="currentPage" 
+    [pageSize]="10" 
+    [maxSize]="page.totalPages +1" 
+    [rotate]="true" 
+    [ellipses]="false" 
+    [boundaryLinks]="true"
+    (pageChange)="pageChange()">
+</ngb-pagination>
 </div>
+
+  

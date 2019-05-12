@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ProgramOverview } from '../models/program-overview';
 import { Movie } from '../models/movie';
+import { Page } from '../models/page';
 
 @Injectable()
 export class MovieService {
@@ -11,8 +12,8 @@ export class MovieService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getOverview(): Observable<ProgramOverview[]>{
-    return this.httpClient.post<ProgramOverview[]>(`${environment.BASE_URL}movie`,{page:1, size:10});
+  getOverview(pageNumber): Observable<Page<ProgramOverview>>{
+    return this.httpClient.post<Page<ProgramOverview>>(`${environment.BASE_URL}movie`,{page:pageNumber -1, size:9});
   }
   getMovieById(id): Observable<Movie>{
     return this.httpClient.get<Movie>(`${environment.BASE_URL}movie/${id}`);
