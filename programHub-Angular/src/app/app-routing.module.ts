@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: './serie/serie.module#SerieModule'
       },
       {
+        path: 'person',
+        loadChildren: './person/person.module#PersonModule'
+      },
+      {
         path:'',
         redirectTo: 'movie',
         pathMatch: 'full'

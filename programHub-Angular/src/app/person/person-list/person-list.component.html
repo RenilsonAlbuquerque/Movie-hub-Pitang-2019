@@ -5,24 +5,22 @@
   </div>
   <div class="col-12">
     <div class="card-columns">
-      <div class="card bg-dark text-white" (click)="goEdit(movie)" *ngFor="let movie of page.elements">
+      <div class="card bg-dark text-white" (click)="goEdit(person)" *ngFor="let person of page.elements">
        <img class="card-img"
-            src="https://image.tmdb.org/t/p/w250_and_h141_face{{ movie.backdropPath }}" alt="_blank" />
+            src="https://image.tmdb.org/t/p/w250_and_h141_face{{ person.profilePicturePath }}" alt="_blank" />
         <div class="card-img-overlay">
-          <p class="card-title">{{ movie.title }}</p>
+          <p class="card-title">{{ person.name }}</p>
         </div>
       </div>
     </div>
   </div>
 <ngb-pagination class="d-flex justify-content-center" 
-  [collectionSize]="page.totalOfPages" 
-  [(page)]="page.currentPageNumber" 
-  [pageSize]="page.size" 
-  [maxSize]="10" 
-  [rotate]="true" 
-  [ellipses]="false" 
-  (pageChange)="pageChange()">
+    [collectionSize]="page.totalOfPages" 
+    [(page)]="page.currentPageNumber" 
+    [pageSize]="page.size" 
+    [maxSize]="10" 
+    [rotate]="true" 
+    [ellipses]="false" 
+    (pageChange)="pageChange()">
 </ngb-pagination>
 </div>
-
-  

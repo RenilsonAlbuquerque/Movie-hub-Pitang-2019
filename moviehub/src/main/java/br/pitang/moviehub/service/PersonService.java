@@ -35,7 +35,7 @@ public class PersonService {
 	 @SuppressWarnings("unchecked")
 	public CustomPage<PersonOverviewDTO> listAllPersonsCover(PaginationFilter filter){
 
-		 Page<Person> page = personDAO.findAll(PageRequest.of(filter.getPage(), filter.getSize(), Sort.by("popularity").descending()));
+		 Page<Person> page = personDAO.findAll(PageRequest.of(filter.getPage() -1, filter.getSize(), Sort.by("popularity").descending()));
 	        return (CustomPage<PersonOverviewDTO>) Utils.convertPage(
 	        		page,
 	        		page.stream().map( person -> PersonOverviewDTO.builder()
@@ -53,8 +53,8 @@ public class PersonService {
 	 public CustomPage<PersonOverviewDTO> filterPerson(HashMap<String, Object> params,PaginationFilter filter){
 	    Specification<Person> specification = PersonSpecification.searchPerson(params);
 	    
-	    Page<Person> page = this.personDAO.findAll(specification,PageRequest.of(filter.getPage(), 
-				filter.getSize()));
+	    Page<Person> page = this.personDAO.findAll(specification,PageRequest.of(filter.getPage() -1, 
+				filter.getSize(),Sort.by("popularity").descending()));
 	    return (CustomPage<PersonOverviewDTO>) Utils.convertPage(
         		page,
         		page.stream().map( person -> PersonOverviewDTO.builder()
