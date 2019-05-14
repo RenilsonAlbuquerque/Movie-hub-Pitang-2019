@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { SerieListComponent } from './serie-list/serie-list.component';
 import { SerieRoutingModule } from './serie.module.routing';
 import { SerieService } from './serie.service';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [SerieListComponent],
   imports: [
     CommonModule,
-    SerieRoutingModule
+    SerieRoutingModule,
+    NgbPaginationModule
   ],
   providers:[
     SerieService

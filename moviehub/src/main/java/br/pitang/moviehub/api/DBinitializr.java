@@ -35,7 +35,7 @@ public class DBinitializr {
         this.serieInitializer = serieInitializer;
     }
 
-    //@Scheduled(fixedDelay = 800000, initialDelay = 1000)
+    //@Scheduled(fixedDelay = 1000000, initialDelay = 1000)
     public void doRequests()throws InterruptedException{
 
         //movieDAO.saveAll(movieInitializer.listMovies(movieDAO));

@@ -1,8 +1,6 @@
 package br.pitang.moviehub.controllers;
 
-import br.pitang.moviehub.dto.PaginationFilter;
-import br.pitang.moviehub.dto.SerieDetailDTO;
-import br.pitang.moviehub.dto.SerieOverviewDTO;
+import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
 import br.pitang.moviehub.service.SerieService;
 import io.swagger.annotations.Api;
@@ -13,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 
 @Slf4j
@@ -26,14 +27,31 @@ public class SerieController {
     private SerieService serieService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Page<SerieOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
-        return new ResponseEntity<Page<SerieOverviewDTO>>(serieService.listAllSeriesCover(filter), HttpStatus.OK);
+    public ResponseEntity<CustomPage<SerieOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
+        return new ResponseEntity<CustomPage<SerieOverviewDTO>>(serieService.listAllSeriesCover(filter), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SerieDetailDTO> findOneById(@PathVariable long id){
         return new ResponseEntity<SerieDetailDTO>(serieService.findOneById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("A série com id " + id + " não foi encontrada")), HttpStatus.OK);
+    }
+    @PostMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<CustomPage<SerieOverviewDTO>> filter(@RequestBody PaginationFilter filter,
+                                                               @RequestParam(required = false) String title,
+                                                               @RequestParam(required = false) Integer year,
+                                                               @RequestParam(required = false) String language){
+        HashMap<String,Object> queryParams = new HashMap<String,Object>();
+        if(title != null) {queryParams.put("title", title);}
+        if(year != null) {queryParams.put("releaseYear", year);}
+        if(language != null) {queryParams.put("language", language);}
+
+        return new ResponseEntity<CustomPage
+                <SerieOverviewDTO>>(serieService.searchSerie(queryParams,filter), HttpStatus.OK);
+    }
+    @GetMapping(value = "/cast/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<CastDTO>> getCast(@PathVariable long id){
+        return new ResponseEntity<List<CastDTO>>(serieService.listCastOfSerie(id), HttpStatus.OK);
     }
 
 }

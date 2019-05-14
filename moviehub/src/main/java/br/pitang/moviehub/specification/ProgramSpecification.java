@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.assertj.core.util.Arrays;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import br.pitang.moviehub.models.Program;

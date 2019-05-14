@@ -29,7 +29,7 @@ public class SerieInitializer {
         List<Serie> seriesOutput = new ArrayList<>();
 
         //Request Series
-        for(int paginationIndex = 1; paginationIndex < 2; paginationIndex++) {
+        for(int paginationIndex = 1; paginationIndex <= 1; paginationIndex++) {
             List seriesInput = (List) ExternalRequestFactory
                     .doRequest("https://api.themoviedb.org/3/tv/popular?api_key="
                             + ExternalRequestFactory.getTmdbApiKey() +  "&language=pt-Br&page=" + paginationIndex).get("results");
@@ -72,7 +72,6 @@ public class SerieInitializer {
 
                 seriesOutput.add(serieEntity);
                 System.out.println(serieEntity.getTitle());
-                break;
             }
         }
         return seriesOutput;

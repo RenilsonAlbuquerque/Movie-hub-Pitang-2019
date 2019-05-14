@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
-import { Movie } from '../models/movie';
 import { Page } from '../models/page';
 import { PersonOverview } from '../models/person-overview';
 import { Person } from '../models/person';

@@ -25,11 +25,11 @@ public class CastMovie implements  Serializable {
     @EmbeddedId
     private CastMovieID id;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("movieId")
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("personId")
     private Person person;
 

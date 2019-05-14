@@ -99,7 +99,7 @@ public class PersonInitializer {
         Person personEntity = Person.builder()
                 .id(Long.valueOf(personDetail.get("id").toString()))
                 .name(personDetail.get("name").toString())
-                .biography(personDetail.get("biography").toString())
+                .biography(personDetail.get("biography") != null? personDetail.get("biography").toString(): "")
                 .height(175)
                 .birthCity(birthCityString)
                 .countryWhereLive(countryString)

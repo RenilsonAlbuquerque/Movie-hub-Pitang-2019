@@ -1,7 +1,6 @@
 package br.pitang.moviehub.models;
 
 
-import br.pitang.moviehub.models.embedded.CastMovieID;
 import br.pitang.moviehub.models.embedded.CastSerieID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,20 +15,20 @@ import java.util.Objects;
 @Data
 @Entity
 @Builder
-@Table(name="mtm_cast_movie")
+@Table(name="mtm_cast_serie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastMovie implements  Serializable {
+public class CastSerie implements  Serializable {
 
 
     @EmbeddedId
-    private CastMovieID id;
+    private CastSerieID id;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @MapsId("movieId")
-    private Movie movie;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @MapsId("serieId")
+    private Serie serie;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId("personId")
     private Person person;
 
@@ -40,12 +39,16 @@ public class CastMovie implements  Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CastMovie castMovie = (CastMovie) o;
-        return Objects.equals(id, castMovie.id);
+        CastSerie castSerie = (CastSerie) o;
+        return Objects.equals(id, castSerie.id) &&
+                Objects.equals(serie, castSerie.serie) &&
+                Objects.equals(person, castSerie.person) &&
+                Objects.equals(character, castSerie.character);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, serie, person, character);
     }
+
 }

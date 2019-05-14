@@ -13,7 +13,7 @@
       <div class="card-body">
         <p class="card-title text-justify"><strong>Sinopse:</strong> {{ movie?.description }}</p>
         <p><strong>Gêneros:</strong> </p>
-        <div class="d-inline-block" *ngFor="let genre of movie?.genres">
+        <div class="d-inline-block" *ngFor="let genre of movie?.generes">
             <span class="badge badge-pill badge-primary">{{ genre?.name }}</span>
         </div>
         <br/>  <br/>

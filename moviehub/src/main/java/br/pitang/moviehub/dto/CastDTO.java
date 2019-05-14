@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CastDTO {
 
-    private String role;
-    private Person actor;
+    private String character;
+    private String actor;
+    private String profilePicture;
 
 }

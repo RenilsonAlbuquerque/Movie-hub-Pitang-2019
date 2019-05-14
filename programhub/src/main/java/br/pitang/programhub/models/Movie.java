@@ -30,10 +30,10 @@ public class Movie extends Program{
     private List<GenereMovie> generes;
 
 
-    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
     private List<CastMovie> cast;
 
-    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
     private List<CrewMovie> crew;
 
     @Builder

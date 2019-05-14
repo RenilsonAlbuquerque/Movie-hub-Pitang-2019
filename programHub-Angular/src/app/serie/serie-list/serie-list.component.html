@@ -1,11 +1,28 @@
-<div class="col-12">
-  <div class="card-columns">
-    <div class="card bg-dark text-white" (click)="goEdit(movie)" *ngFor="let serie of series">
-     <img class="card-img"
-          src="https://image.tmdb.org/t/p/w250_and_h141_face{{ serie.backdropPath }}" alt="_blank" />
-      <div class="card-img-overlay">
-        <p class="card-title">{{ serie.title }}</p>
+
+<div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Procurar" (input)="search = $event.target.value" (keyup)="onSearch()" aria-label="Username" aria-describedby="basic-addon1">
+  </div>
+  <div class="col-12">
+    <div class="card-columns">
+      <div class="card bg-dark text-white" (click)="goEdit(serie)" *ngFor="let serie of page.elements">
+       <img class="card-img"
+            src="https://image.tmdb.org/t/p/w250_and_h141_face{{ serie.backdropPath }}" alt="_blank" />
+        <div class="card-img-overlay">
+          <p class="card-title">{{ serie.title }}</p>
+        </div>
       </div>
     </div>
   </div>
+<ngb-pagination class="d-flex justify-content-center" 
+  [collectionSize]="page.totalOfPages" 
+  [(page)]="page.currentPageNumber" 
+  [pageSize]="page.size" 
+  [maxSize]="10" 
+  [rotate]="true" 
+  [ellipses]="false" 
+  (pageChange)="pageChange()">
+</ngb-pagination>
 </div>
+
+  

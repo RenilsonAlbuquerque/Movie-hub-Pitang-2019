@@ -24,6 +24,13 @@ dependencies {
 
 	//MySql
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+	//compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+
+
+	//hsqldb
+	testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.0.0'
+
+
 
 
 	//Google
@@ -40,5 +47,7 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
 
+
+	runtimeOnly 'com.h2database:h2'
 
 }

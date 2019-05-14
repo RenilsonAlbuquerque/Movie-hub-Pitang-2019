@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SerieService } from '../serie.service';
 import { ProgramOverview } from 'src/app/models/program-overview';
+import { Page } from 'src/app/models/page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-serie-list',
@@ -9,18 +11,31 @@ import { ProgramOverview } from 'src/app/models/program-overview';
 })
 export class SerieListComponent implements OnInit {
 
-  public series: ProgramOverview[];
+  public page: Page<ProgramOverview>;
+  public search: String;
 
-  constructor(private movieService: SerieService) { }
+  constructor(private serieService: SerieService, private router: Router) { }
 
   ngOnInit() {
-    this.movieService.getOverview().subscribe(
-        response => (this.series = response['content'], console.log(this.series))  
+    
+    this.search = "";
+    this.serieService.getOverview(1).subscribe(
+        response => (this.page = response)  
     )
   }
 
   goEdit(movie){
-
+    this.router.navigate(['home/serie/detail', movie.id])
+  }
+  pageChange(){
+    this.serieService.getOverview(this.page.currentPageNumber).subscribe(
+      response => (this.page = response)  
+    )
+  }
+  onSearch(){
+    this.serieService.getSearchResult(this.search,1).subscribe(
+      response => (this.page = response)  
+    )
   }
 
 }
