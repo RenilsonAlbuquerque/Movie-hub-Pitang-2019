@@ -1,5 +1,6 @@
 package br.pitang.moviehub.controllers;
 
+import br.pitang.moviehub.contracts.services.ISerieService;
 import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
 import br.pitang.moviehub.service.SerieService;
@@ -24,17 +25,16 @@ import java.util.List;
 public class SerieController {
 
     @Autowired
-    private SerieService serieService;
+    private ISerieService serieService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomPage<SerieOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
-        return new ResponseEntity<CustomPage<SerieOverviewDTO>>(serieService.listAllSeriesCover(filter), HttpStatus.OK);
+        return new ResponseEntity<CustomPage<SerieOverviewDTO>>(serieService.listSeriesOverview(filter), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SerieDetailDTO> findOneById(@PathVariable long id){
-        return new ResponseEntity<SerieDetailDTO>(serieService.findOneById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("A série com id " + id + " não foi encontrada")), HttpStatus.OK);
+        return new ResponseEntity<SerieDetailDTO>(serieService.findSerieById(id), HttpStatus.OK);
     }
     @PostMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomPage<SerieOverviewDTO>> filter(@RequestBody PaginationFilter filter,
@@ -51,7 +51,7 @@ public class SerieController {
     }
     @GetMapping(value = "/cast/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<CastDTO>> getCast(@PathVariable long id){
-        return new ResponseEntity<List<CastDTO>>(serieService.listCastOfSerie(id), HttpStatus.OK);
+        return new ResponseEntity<List<CastDTO>>(serieService.castOfSerie(id), HttpStatus.OK);
     }
 
 }

@@ -36,4 +36,8 @@ public class CrewId implements Serializable {
                 Objects.equals(personId,  crewID.programId) &&
                 Objects.equals(job, crewID.job);
     }
+    @Override
+    public int hashCode() {
+        return Objects.hash(programId, personId, job);
+    }
 }

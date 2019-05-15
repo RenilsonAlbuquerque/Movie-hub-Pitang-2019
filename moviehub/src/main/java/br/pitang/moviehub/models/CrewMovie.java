@@ -1,7 +1,6 @@
 package br.pitang.moviehub.models;
 
-import br.pitang.moviehub.models.embedded.CrewMovieID;
-import br.pitang.moviehub.models.embedded.CrewSerieID;
+import br.pitang.moviehub.models.embedded.CrewId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,10 +21,10 @@ public class CrewMovie implements Serializable {
 
     @Delegate
     @EmbeddedId
-    private CrewMovieID id;
+    private CrewId id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @MapsId("movieId")
+    @MapsId("programId")
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -1,15 +1,14 @@
 package br.pitang.moviehub.controllers;
 
-import br.pitang.moviehub.dto.CustomPage;
-import br.pitang.moviehub.dto.MovieDetailDTO;
-import br.pitang.moviehub.dto.MovieOverviewDTO;
-import br.pitang.moviehub.dto.PaginationFilter;
+import br.pitang.moviehub.contracts.services.IMovieService;
+import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
 import br.pitang.moviehub.service.MovieService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class MovieController {
 
     @Autowired
-    private MovieService movieService;
+    private IMovieService movieService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomPage<MovieOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
@@ -34,8 +33,7 @@ public class MovieController {
     }
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<MovieDetailDTO> findOneById(@PathVariable long id){
-        return new ResponseEntity<MovieDetailDTO>(movieService.findOneById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado")), HttpStatus.OK);
+        return new ResponseEntity<MovieDetailDTO>(movieService.findMovieById(id), HttpStatus.OK);
     }
     @PostMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomPage<MovieOverviewDTO>> filter(@RequestBody PaginationFilter filter,
@@ -49,6 +47,10 @@ public class MovieController {
     	
     	 return new ResponseEntity<CustomPage
     			 <MovieOverviewDTO>>(movieService.searchMovie(queryParams,filter), HttpStatus.OK);
+    }
+    @GetMapping(value = "/cast/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<CastDTO>> getCast(@PathVariable long id){
+        return new ResponseEntity<List<CastDTO>>(movieService.castOfMovie(id), HttpStatus.OK);
     }
    
 }

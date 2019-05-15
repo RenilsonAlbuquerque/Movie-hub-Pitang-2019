@@ -1,10 +1,8 @@
 package br.pitang.moviehub.service;
 
 
-import br.pitang.moviehub.dto.CustomPage;
-import br.pitang.moviehub.dto.MovieDetailDTO;
-import br.pitang.moviehub.dto.MovieOverviewDTO;
-import br.pitang.moviehub.dto.PaginationFilter;
+import br.pitang.moviehub.contracts.services.IMovieService;
+import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
 import br.pitang.moviehub.models.Movie;
 import br.pitang.moviehub.models.Program;
@@ -19,13 +17,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 
 @Service
-public class MovieService {
+public class MovieService implements IMovieService {
 
     @Autowired
     private MovieDAO movieDAO;
@@ -43,22 +42,21 @@ public class MovieService {
                         .build())
                 .collect(Collectors.toList()));
     }
-    public Optional<MovieDetailDTO> findOneById(Long id) throws ResourceNotFoundException{
-        return movieDAO.findById(id)
-                .map(movie -> MovieDetailDTO.builder()
-                        .id(movie.getId())
-                        .title(movie.getTitle())
-                        .description(movie.getDescription())
-                        .country(movie.getCountry())
-                        .language(movie.getLanguage())
-                        .releaseYear(movie.getReleaseYear())
-                        .durationInMinutes(movie.getDurationInMinutes())
-                        .voteAverage(movie.getVoteAverage())
-                        .voteCount(movie.getVoteCount())
-                        .backdropPath(movie.getBackdropPath())
-                        .generes(movie.getGeneres())
-                        .build()
-                );
+    public MovieDetailDTO findMovieById(Long id) throws ResourceNotFoundException{
+        return movieDAO.findById(id).map(movie -> MovieDetailDTO.builder()
+                .id(movie.getId())
+                .title(movie.getTitle())
+                .description(movie.getDescription())
+                .country(movie.getCountry())
+                .language(movie.getLanguage())
+                .releaseYear(movie.getReleaseYear())
+                .durationInMinutes(movie.getDurationInMinutes())
+                .voteAverage(movie.getVoteAverage())
+                .voteCount(movie.getVoteCount())
+                .backdropPath(movie.getBackdropPath())
+                .generes(movie.getGeneres())
+                .build()
+        ).orElseThrow(()-> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado"));
     }
     
     @SuppressWarnings("unchecked")
@@ -75,5 +73,16 @@ public class MovieService {
                         .backdropPath(movie.getBackdropPath())
                         .build())
                 .collect(Collectors.toList()));
+    }
+    public List<CastDTO> castOfMovie(long movieId) throws ResourceNotFoundException{
+        Movie search = movieDAO.findById(movieId)
+                .orElseThrow(()-> new ResourceNotFoundException("O filme com id " + movieId + " não foi encontrado"));
+        return search.getCast().stream().
+                map(cast -> CastDTO.builder()
+                        .character(cast.getCharacter())
+                        .actor(cast.getPerson().getName())
+                        .profilePicture(cast.getPerson().getProfilePiturePath())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

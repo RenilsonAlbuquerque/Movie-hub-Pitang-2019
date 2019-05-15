@@ -1,13 +1,13 @@
 package br.pitang.moviehub.models;
 
 
-import br.pitang.moviehub.models.embedded.CastSerieID;
+import br.pitang.moviehub.models.embedded.CastId;
 
 
 public interface Cast {
 
 
-    CastSerieID id();
+    CastId id();
     Program getProgram();
     Person getPerson();
     String getRole();
