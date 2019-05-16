@@ -28,6 +28,10 @@ public class Utils {
 									.last(inputPage.isLast())
 									.build();
 	}
+	public static CustomPage<?> createPage(List elements){
+		return CustomPage.builder().elements(elements)
+				.build();
+	}
 	
 	
 }

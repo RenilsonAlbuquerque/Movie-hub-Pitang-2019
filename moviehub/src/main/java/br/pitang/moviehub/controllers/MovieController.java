@@ -2,8 +2,6 @@ package br.pitang.moviehub.controllers;
 
 import br.pitang.moviehub.contracts.services.IMovieService;
 import br.pitang.moviehub.dto.*;
-import br.pitang.moviehub.exception.ResourceNotFoundException;
-import br.pitang.moviehub.service.MovieService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +26,7 @@ public class MovieController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomPage<MovieOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
-        return new ResponseEntity<CustomPage<MovieOverviewDTO>>(movieService.listAllSeriesCover(filter), HttpStatus.OK);
+        return new ResponseEntity<CustomPage<MovieOverviewDTO>>(movieService.listMoviesOverview(filter), HttpStatus.OK);
     }
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<MovieDetailDTO> findOneById(@PathVariable long id){
@@ -52,5 +49,10 @@ public class MovieController {
     public ResponseEntity<List<CastDTO>> getCast(@PathVariable long id){
         return new ResponseEntity<List<CastDTO>>(movieService.castOfMovie(id), HttpStatus.OK);
     }
-   
+    @PostMapping(value = "/update/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<MovieCreationDTO> updateMovie(@RequestParam long id,
+                                                        @RequestBody MovieCreationDTO input){
+        return new ResponseEntity<MovieCreationDTO>(movieService.edit(id,input), HttpStatus.OK);
+    }
+
 }

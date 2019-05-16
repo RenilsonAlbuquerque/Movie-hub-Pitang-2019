@@ -18,7 +18,7 @@ import java.util.Objects;
 @Table(name="mtm_cast_serie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastSerie implements  Serializable {
+public class CastSerie implements  Serializable, Cast {
 
 
     @EmbeddedId
@@ -51,4 +51,17 @@ public class CastSerie implements  Serializable {
         return Objects.hash(id, serie, person, character);
     }
 
+    @Override
+    public CastId id() {
+        return this.id;
+    }
+
+    @Override
+    public Program getProgram() {
+        return this.getProgram();
+    }
+    @Override
+    public String getCharacter() {
+        return this.character;
+    }
 }

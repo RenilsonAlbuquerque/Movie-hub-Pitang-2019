@@ -4,6 +4,8 @@ package br.pitang.moviehub.service;
 import br.pitang.moviehub.contracts.services.IMovieService;
 import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
+import br.pitang.moviehub.mapper.CastMapper;
+import br.pitang.moviehub.mapper.MovieMapper;
 import br.pitang.moviehub.models.Movie;
 import br.pitang.moviehub.models.Program;
 import br.pitang.moviehub.repository.MovieDAO;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -29,34 +30,24 @@ public class MovieService implements IMovieService {
     @Autowired
     private MovieDAO movieDAO;
 
+    @Autowired
+    private MovieMapper movieMapper;
+
+    @Autowired
+    private CastMapper castMapper;
+
     @SuppressWarnings("unchecked")
-	public CustomPage<MovieOverviewDTO> listAllSeriesCover(PaginationFilter filter){
+	public CustomPage<MovieOverviewDTO> listMoviesOverview(PaginationFilter filter){
     
     	Page<Movie> page = movieDAO.findAll(PageRequest.of(filter.getPage() -1, filter.getSize(),Sort.by("popularity").descending()));
         return (CustomPage<MovieOverviewDTO>) Utils.convertPage(page,
         		page
-        		.stream().map( movie -> MovieOverviewDTO.builder()
-                        .id(movie.getId())
-                        .title(movie.getTitle())
-                        .backdropPath(movie.getBackdropPath())
-                        .build())
+        		.stream().map( movie -> movieMapper.entityToOverview(movie))
                 .collect(Collectors.toList()));
     }
     public MovieDetailDTO findMovieById(Long id) throws ResourceNotFoundException{
-        return movieDAO.findById(id).map(movie -> MovieDetailDTO.builder()
-                .id(movie.getId())
-                .title(movie.getTitle())
-                .description(movie.getDescription())
-                .country(movie.getCountry())
-                .language(movie.getLanguage())
-                .releaseYear(movie.getReleaseYear())
-                .durationInMinutes(movie.getDurationInMinutes())
-                .voteAverage(movie.getVoteAverage())
-                .voteCount(movie.getVoteCount())
-                .backdropPath(movie.getBackdropPath())
-                .generes(movie.getGeneres())
-                .build()
-        ).orElseThrow(()-> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado"));
+        return movieDAO.findById(id).map(movie -> this.movieMapper.entityToDetail(movie))
+                .orElseThrow(()-> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado"));
     }
     
     @SuppressWarnings("unchecked")
@@ -67,22 +58,34 @@ public class MovieService implements IMovieService {
 				filter.getSize(),Sort.by("popularity").descending()));
     	return (CustomPage<MovieOverviewDTO>) Utils.convertPage(page,
         		page
-        		.stream().map( movie -> MovieOverviewDTO.builder()
-                        .id(movie.getId())
-                        .title(movie.getTitle())
-                        .backdropPath(movie.getBackdropPath())
-                        .build())
+        		.stream().map( movie -> this.movieMapper.entityToOverview(movie))
                 .collect(Collectors.toList()));
     }
     public List<CastDTO> castOfMovie(long movieId) throws ResourceNotFoundException{
         Movie search = movieDAO.findById(movieId)
                 .orElseThrow(()-> new ResourceNotFoundException("O filme com id " + movieId + " não foi encontrado"));
         return search.getCast().stream().
-                map(cast -> CastDTO.builder()
-                        .character(cast.getCharacter())
-                        .actor(cast.getPerson().getName())
-                        .profilePicture(cast.getPerson().getProfilePiturePath())
-                        .build())
+                map(cast -> this.castMapper.entityToOverview(cast))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public MovieCreationDTO edit(long id, MovieCreationDTO input) throws ResourceNotFoundException {
+        Movie search = movieDAO.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado"));
+        search.setTitle(input.getTitle());
+        search.setDescription(input.getDescription());
+        search.setCountry(input.getCountry());
+        search.setLanguage(input.getLanguage());
+        search.setReleaseYear(input.getReleaseYear());
+        search.setDurationInMinutes(input.getDurationInMinutes());
+        search.setVoteAverage(input.getVoteAverage());
+        search.setVoteCount(input.getVoteCount());
+        search.setBackdropPath(input.getBackdropPath());
+        search.setTagline(input.getTagline());
+
+        movieDAO.save(search);
+        return input;
+
     }
 }

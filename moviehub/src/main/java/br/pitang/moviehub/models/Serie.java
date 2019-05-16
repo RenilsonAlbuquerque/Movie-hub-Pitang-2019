@@ -34,10 +34,11 @@ public class Serie extends Program{
     private List<CrewSerie> crew;
 
     @Builder
-    public Serie(String title, String description, String country, String language, Long releaseyear,
+    public Serie(Long id,String title, String description, String country, String language, Long releaseyear,
                  double durationInMinutes, List<GenereSerie> generes, Double voteAverage, Long voteCount,
                  String backdropPath,Double popularity, List<CastSerie> cast, List<Season> seasons, List<CrewSerie> crew){
         super();
+        super.setId(id);
         super.setTitle(title);
         super.setDescription(description);
         super.setCountry(country);

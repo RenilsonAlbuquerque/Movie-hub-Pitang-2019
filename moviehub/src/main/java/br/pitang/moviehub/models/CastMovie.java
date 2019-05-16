@@ -18,7 +18,7 @@ import java.util.Objects;
 @Table(name="mtm_cast_movie")
 @AllArgsConstructor
 @NoArgsConstructor
-public class CastMovie implements  Serializable {
+public class CastMovie implements  Serializable, Cast {
 
 
     @EmbeddedId
@@ -46,5 +46,19 @@ public class CastMovie implements  Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public CastId id() {
+        return this.id;
+    }
+
+    @Override
+    public Program getProgram() {
+        return this.movie;
+    }
+    @Override
+    public String getCharacter() {
+        return this.character;
     }
 }

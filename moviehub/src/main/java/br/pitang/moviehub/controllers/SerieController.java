@@ -53,5 +53,10 @@ public class SerieController {
     public ResponseEntity<List<CastDTO>> getCast(@PathVariable long id){
         return new ResponseEntity<List<CastDTO>>(serieService.castOfSerie(id), HttpStatus.OK);
     }
+    @PostMapping(value = "/update/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SerieCreationDTO> updateMovie(@RequestParam long id,
+                                                        @RequestBody SerieCreationDTO input){
+        return new ResponseEntity<SerieCreationDTO>(serieService.edit(id,input), HttpStatus.OK);
+    }
 
 }

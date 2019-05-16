@@ -37,10 +37,11 @@ public class Movie extends Program{
     private List<CrewMovie> crew;
 
     @Builder
-    public Movie(String title, String description, String country, String language, Long releaseyear,
+    public Movie(Long id,String title, String description, String country, String language, Long releaseyear,
                  double durationInMinutes, List<GenereMovie> generes, Double voteAverage, Long voteCount,
                  String backdropPath,Double popularity, String tagline, List<CastMovie> cast, List<CrewMovie> crew){
         super();
+        super.setId(id);
         super.setTitle(title);
         super.setDescription(description);
         super.setCountry(country);

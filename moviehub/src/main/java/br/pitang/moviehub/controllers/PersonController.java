@@ -2,6 +2,8 @@ package br.pitang.moviehub.controllers;
 
 import java.util.HashMap;
 
+import br.pitang.moviehub.contracts.services.IPersonService;
+import br.pitang.moviehub.dto.PersonDetailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -33,16 +35,15 @@ import lombok.extern.slf4j.Slf4j;
 public class PersonController {
 
 	@Autowired
-    private PersonService personService;
+    private IPersonService personService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomPage<PersonOverviewDTO>> listAllOverview(@RequestBody PaginationFilter filter){
-        return new ResponseEntity<CustomPage<PersonOverviewDTO>>(personService.listAllPersonsCover(filter), HttpStatus.OK);
+        return new ResponseEntity<CustomPage<PersonOverviewDTO>>(personService.listPersonOverview(filter), HttpStatus.OK);
     }
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Person> findOneById(@PathVariable long id){
-        return new ResponseEntity<Person>(personService.findPersonById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("A pessoa com id " + id + " não foi encontrada")), HttpStatus.OK);
+    public ResponseEntity<PersonDetailDTO> findOneById(@PathVariable long id){
+        return new ResponseEntity<PersonDetailDTO>(personService.findPersonById(id), HttpStatus.OK);
     }
     @PostMapping(value = "/filter",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomPage<PersonOverviewDTO>> filter(@RequestBody PaginationFilter filter,

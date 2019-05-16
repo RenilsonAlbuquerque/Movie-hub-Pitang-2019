@@ -10,5 +10,5 @@ public interface Cast {
     CastId id();
     Program getProgram();
     Person getPerson();
-    String getRole();
+    String getCharacter();
 }

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.pitang.moviehub.contracts.services.IPersonService;
+import br.pitang.moviehub.dto.*;
+import br.pitang.moviehub.mapper.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -12,11 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import br.pitang.moviehub.dto.CustomPage;
-import br.pitang.moviehub.dto.MovieDetailDTO;
-import br.pitang.moviehub.dto.MovieOverviewDTO;
-import br.pitang.moviehub.dto.PaginationFilter;
-import br.pitang.moviehub.dto.PersonOverviewDTO;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
 import br.pitang.moviehub.models.Person;
 import br.pitang.moviehub.models.Program;
@@ -27,26 +25,28 @@ import br.pitang.moviehub.specification.ProgramSpecification;
 import br.pitang.moviehub.utils.Utils;
 
 @Service
-public class PersonService {
+public class PersonService implements IPersonService {
 	
 	 @Autowired
 	 private PersonDAO personDAO;
 
+	 @Autowired
+	 private PersonMapper personMapper;
+
 	 @SuppressWarnings("unchecked")
-	public CustomPage<PersonOverviewDTO> listAllPersonsCover(PaginationFilter filter){
+	public CustomPage<PersonOverviewDTO> listPersonOverview(PaginationFilter filter){
 
 		 Page<Person> page = personDAO.findAll(PageRequest.of(filter.getPage() -1, filter.getSize(), Sort.by("popularity").descending()));
 	        return (CustomPage<PersonOverviewDTO>) Utils.convertPage(
 	        		page,
-	        		page.stream().map( person -> PersonOverviewDTO.builder()
-	        			.id(person.getId())
-	        			.name(person.getName())
-	        			.profilePicturePath(person.getProfilePiturePath())
-	        			.build())
+	        		page.stream().map( person -> this.personMapper.entityToOverview(person))
 	        		.collect(Collectors.toList()));
 	 }
-	 public Optional<Person> findPersonById(Long id) throws ResourceNotFoundException{
-	        return personDAO.findById(id);
+	 public PersonDetailDTO findPersonById(Long id) throws ResourceNotFoundException{
+	 		Person person = personDAO.findById(id).
+					orElseThrow(() -> new ResourceNotFoundException("O filme com id " + id + " não foi encontrado"));
+	        return personMapper.entityToDetail(person);
+
 	 }
 	 
 	 @SuppressWarnings("unchecked")
@@ -57,11 +57,7 @@ public class PersonService {
 				filter.getSize(),Sort.by("popularity").descending()));
 	    return (CustomPage<PersonOverviewDTO>) Utils.convertPage(
         		page,
-        		page.stream().map( person -> PersonOverviewDTO.builder()
-        			.id(person.getId())
-        			.name(person.getName())
-        			.profilePicturePath(person.getProfilePiturePath())
-        			.build())
+        		page.stream().map( person -> this.personMapper.entityToOverview(person))
         		.collect(Collectors.toList()));
 	    }
 

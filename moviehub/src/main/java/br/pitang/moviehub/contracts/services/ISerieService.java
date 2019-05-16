@@ -11,4 +11,5 @@ public interface ISerieService {
     SerieDetailDTO findSerieById(Long id) throws ResourceNotFoundException;
     CustomPage<SerieOverviewDTO> searchSerie(HashMap<String, Object> params, PaginationFilter filter);
     List<CastDTO> castOfSerie(long movieId) throws ResourceNotFoundException;
+    SerieCreationDTO edit(long id, SerieCreationDTO input)throws ResourceNotFoundException;
 }
