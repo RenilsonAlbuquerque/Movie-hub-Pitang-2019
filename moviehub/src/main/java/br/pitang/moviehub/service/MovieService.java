@@ -10,7 +10,7 @@ import br.pitang.moviehub.models.Movie;
 import br.pitang.moviehub.models.Program;
 import br.pitang.moviehub.repository.MovieDAO;
 import br.pitang.moviehub.specification.ProgramSpecification;
-import br.pitang.moviehub.utils.Utils;
+import br.pitang.moviehub.utils.PaginationGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +40,7 @@ public class MovieService implements IMovieService {
 	public CustomPage<MovieOverviewDTO> listMoviesOverview(PaginationFilter filter){
     
     	Page<Movie> page = movieDAO.findAll(PageRequest.of(filter.getPage() -1, filter.getSize(),Sort.by("popularity").descending()));
-        return (CustomPage<MovieOverviewDTO>) Utils.convertPage(page,
+        return (CustomPage<MovieOverviewDTO>) PaginationGenerator.convertPage(page,
         		page
         		.stream().map( movie -> movieMapper.entityToOverview(movie))
                 .collect(Collectors.toList()));
@@ -56,7 +56,7 @@ public class MovieService implements IMovieService {
     
     	Page<Program> page = this.movieDAO.findAll(specification,PageRequest.of(filter.getPage() -1, 
 				filter.getSize(),Sort.by("popularity").descending()));
-    	return (CustomPage<MovieOverviewDTO>) Utils.convertPage(page,
+    	return (CustomPage<MovieOverviewDTO>) PaginationGenerator.convertPage(page,
         		page
         		.stream().map( movie -> this.movieMapper.entityToOverview(movie))
                 .collect(Collectors.toList()));

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ProgramOverview } from '../models/program-overview';
 import { Movie } from '../models/movie';
 import { Page } from '../models/page';
+import { Cast } from '../models/cast';
 
 @Injectable()
 export class MovieService {
@@ -20,5 +21,8 @@ export class MovieService {
   }
   getSearchResult(searchTitle: String, pageNumber): Observable<Page<ProgramOverview>>{
     return this.httpClient.post<Page<ProgramOverview>>(`${environment.BASE_URL}movie/filter?title=${searchTitle}`,{page:pageNumber, size:9});
+  }
+  getCast(movieId: String): Observable<Cast[]>{
+    return this.httpClient.get<Cast[]>(`${environment.BASE_URL}movie/cast/${movieId}`);
   }
 }

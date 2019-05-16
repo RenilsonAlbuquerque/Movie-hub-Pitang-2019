@@ -9,7 +9,7 @@ import br.pitang.moviehub.models.Program;
 import br.pitang.moviehub.models.Serie;
 import br.pitang.moviehub.repository.SerieDAO;
 import br.pitang.moviehub.specification.ProgramSpecification;
-import br.pitang.moviehub.utils.Utils;
+import br.pitang.moviehub.utils.PaginationGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -40,7 +40,7 @@ public class SerieService implements ISerieService {
     public CustomPage<SerieOverviewDTO> listSeriesOverview(PaginationFilter filter){
 
         Page<Serie> page = serieDAO.findAll(PageRequest.of(filter.getPage() -1, filter.getSize(),Sort.by("popularity").descending()));
-        return (CustomPage<SerieOverviewDTO>) Utils.convertPage(page,
+        return (CustomPage<SerieOverviewDTO>) PaginationGenerator.convertPage(page,
                 page
                         .stream() .map( serie -> this.serieMapper.entityToOverview(serie))
                         .collect(Collectors.toList()));
@@ -56,7 +56,7 @@ public class SerieService implements ISerieService {
 
         Page<Program> page = this.serieDAO.findAll(specification,PageRequest.of(filter.getPage() -1,
                 filter.getSize(),Sort.by("popularity").descending()));
-        return (CustomPage<SerieOverviewDTO>) Utils.convertPage(page,
+        return (CustomPage<SerieOverviewDTO>) PaginationGenerator.convertPage(page,
                 page
                         .stream() .map( serie -> this.serieMapper.entityToOverview(serie))
                         .collect(Collectors.toList()));

@@ -2,6 +2,7 @@ package br.pitang.moviehub.service;
 
 import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
+import br.pitang.moviehub.mapper.PersonMapper;
 import br.pitang.moviehub.models.Person;
 import br.pitang.moviehub.repository.PersonDAO;
 import br.pitang.moviehub.utils.PersonGenerator;
@@ -33,6 +34,9 @@ public class PersonServiceTest {
     @Mock
     private PersonDAO personDAO;
 
+    @Mock
+    private PersonMapper personMapper;
+
     private Page<Person> peopleInRepository;
 
     @Before
@@ -40,6 +44,7 @@ public class PersonServiceTest {
         MockitoAnnotations.initMocks(this);
         peopleInRepository = new PageImpl<>(PersonGenerator.generatePeople(10));
         Whitebox.setInternalState(personService, "personDAO",personDAO );
+        Whitebox.setInternalState(personService,"personMapper", personMapper);
     }
     @Test
     public void listPeopleOverviewTest(){
@@ -53,7 +58,7 @@ public class PersonServiceTest {
     public void findPersonByValidId(){
         Mockito.when(personDAO.findById(Mockito.anyLong()))
                 .thenReturn(Optional.of(peopleInRepository.getContent().get(0)));
-        PersonDetailDTO found = personService.findPersonById(1L);
+        PersonDetailDTO found = personService.findPersonById(Long.valueOf(1));
         assertEquals(Long.valueOf(1), found.getId());
     }
 

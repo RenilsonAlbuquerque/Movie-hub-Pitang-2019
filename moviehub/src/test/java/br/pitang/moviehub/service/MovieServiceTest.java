@@ -4,6 +4,8 @@ package br.pitang.moviehub.service;
 
 import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
+import br.pitang.moviehub.mapper.CastMapper;
+import br.pitang.moviehub.mapper.MovieMapper;
 import br.pitang.moviehub.models.Movie;
 import br.pitang.moviehub.repository.MovieDAO;
 
@@ -12,10 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.internal.util.reflection.Whitebox;
 
 import org.springframework.data.domain.Page;
@@ -41,13 +40,22 @@ public class MovieServiceTest {
     @Mock
     private MovieDAO movieDAO;
 
+    @Mock
+    private MovieMapper movieMapper;
+
+    @Mock
+    private CastMapper castMapper;
+
+
     private Page<Movie> moviesInRepository;
 
     @Before
     public void init(){
         MockitoAnnotations.initMocks(this);
         moviesInRepository = new PageImpl<>(MovieGenerators.generateMovies(10));
-        Whitebox.setInternalState(movieService, "movieDAO",movieDAO );
+        Whitebox.setInternalState(this.movieService, "movieDAO",movieDAO );
+        Whitebox.setInternalState(this.movieService,"movieMapper",this.movieMapper);
+        Whitebox.setInternalState(this.movieService,"castMapper",this.castMapper);
     }
 
 
@@ -61,8 +69,9 @@ public class MovieServiceTest {
 
     @Test
     public void findMovieByValidId(){
+        Optional<Movie> fake = Optional.of(this.moviesInRepository.getContent().get(0));
         Mockito.when(movieDAO.findById(Mockito.anyLong()))
-                .thenReturn(Optional.of(moviesInRepository.getContent().get(0)));
+                .thenReturn(fake);
         MovieDetailDTO found = movieService.findMovieById(1L);
         assertEquals(Long.valueOf(1), found.getId());
     }
@@ -88,6 +97,9 @@ public class MovieServiceTest {
     public void searchCastTest(){
         Mockito.when(movieDAO.findById(Mockito.anyLong()))
                 .thenReturn(Optional.of(moviesInRepository.getContent().get(0)));
+
+
+        //Mockito.doReturn(Optional.of(moviesInRepository.getContent().get(0))).when(movieDAO.findById(Mockito.anyLong()));
         List<CastDTO> found = movieService.castOfMovie(1L);
         assertEquals(2L, found.size());
     }

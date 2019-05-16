@@ -1,6 +1,8 @@
-package br.pitang.moviehub.models;
+package br.pitang.moviehub.contracts.models;
 
 
+import br.pitang.moviehub.models.Person;
+import br.pitang.moviehub.models.Program;
 import br.pitang.moviehub.models.embedded.CastId;
 
 

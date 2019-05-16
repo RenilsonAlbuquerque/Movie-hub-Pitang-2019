@@ -1,6 +1,7 @@
 package br.pitang.moviehub.models;
 
 
+import br.pitang.moviehub.contracts.models.Cast;
 import br.pitang.moviehub.models.embedded.CastId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

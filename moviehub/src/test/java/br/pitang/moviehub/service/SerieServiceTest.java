@@ -2,6 +2,8 @@ package br.pitang.moviehub.service;
 
 import br.pitang.moviehub.dto.*;
 import br.pitang.moviehub.exception.ResourceNotFoundException;
+import br.pitang.moviehub.mapper.CastMapper;
+import br.pitang.moviehub.mapper.SerieMapper;
 import br.pitang.moviehub.models.Serie;
 import br.pitang.moviehub.repository.SerieDAO;
 import br.pitang.moviehub.utils.SeriesGenerator;
@@ -34,13 +36,23 @@ public class SerieServiceTest {
     @Mock
     private SerieDAO serieDAO;
 
+    @Mock
+    private SerieMapper serieMapper;
+
+    @Mock
+    private CastMapper castMapper;
+
     private Page<Serie> seriesInRepository;
+
+
 
     @Before
     public void init(){
         MockitoAnnotations.initMocks(this);
         seriesInRepository = new PageImpl<>(SeriesGenerator.generateSeries(10));
         Whitebox.setInternalState(serieService, "serieDAO",serieDAO );
+        Whitebox.setInternalState(serieService, "serieMapper",serieMapper );
+        Whitebox.setInternalState(serieService, "castMapper",castMapper );
     }
     @Test
     public void listSeriesOverviewTest(){

@@ -22,6 +22,13 @@
           <img src="https://image.tmdb.org/t/p/w50_and_h50_bestv2{{ company.logo_path }}" class="img-thumbnail"
             alt="">&nbsp;
         </div>
+        <p><strong>Elenco:</strong> </p>
+        <div class="d-inline-block" *ngFor="let cast of casts">
+          <img src="https://image.tmdb.org/t/p/w50_and_h50_bestv2{{ cast.profilePicture }}" class="img-thumbnail"
+            alt="">&nbsp;
+          <span>{{cast.actor}}</span>
+          <span>{{cast.character}}</span>
+        </div>
       </div>
     </div>
   </div>

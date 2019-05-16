@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 import br.pitang.moviehub.dto.CustomPage;
 
-public class Utils {
+public class PaginationGenerator {
 	
 	public static CustomPage<?> convertPage(Page inputPage){
 		return CustomPage.builder().elements(inputPage.getContent())
