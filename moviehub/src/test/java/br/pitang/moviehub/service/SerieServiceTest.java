@@ -36,7 +36,7 @@ public class SerieServiceTest {
     @Mock
     private SerieDAO serieDAO;
 
-    @Mock
+    @InjectMocks
     private SerieMapper serieMapper;
 
     @Mock

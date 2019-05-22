@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovieMapper {
     public MovieDetailDTO entityToDetail(Movie movie){
-        return new MovieDetailDTO().builder()
+        return  MovieDetailDTO.builder()
                 .id(movie.getId())
                 .title(movie.getTitle())
                 .description(movie.getDescription())

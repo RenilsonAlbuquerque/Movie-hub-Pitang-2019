@@ -11,6 +11,24 @@ import java.util.List;
 
 public class SeriesGenerator {
 
+    public static Serie generateSerie(){
+       return Serie.builder()
+                    .id(1L)
+                    .title("Game of Thrones")
+                    .description("The Winter is coming")
+                    .country("U.S.A")
+                    .language("English")
+                    .releaseyear(2011L)
+                    .durationInMinutes(181)
+                    .voteAverage(8.5)
+                    .voteCount(5295L)
+                    .backdropPath("/hUzeosd33nzE5MCNsZxCGEKTXaQ.png")
+                    .popularity(290.05)
+                    .cast(generateSerieCast(3))
+                    .seasons(new ArrayList<Season>())
+                    .build();
+    }
+
     public static List<Serie> generateSeries(int quantity){
         List<Serie> output = new ArrayList<>();
         for(int i = 1; i < quantity; i++){

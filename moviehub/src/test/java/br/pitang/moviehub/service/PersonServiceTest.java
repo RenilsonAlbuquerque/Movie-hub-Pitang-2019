@@ -34,7 +34,7 @@ public class PersonServiceTest {
     @Mock
     private PersonDAO personDAO;
 
-    @Mock
+    @InjectMocks
     private PersonMapper personMapper;
 
     private Page<Person> peopleInRepository;

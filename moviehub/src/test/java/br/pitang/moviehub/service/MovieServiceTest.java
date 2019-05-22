@@ -40,7 +40,7 @@ public class MovieServiceTest {
     @Mock
     private MovieDAO movieDAO;
 
-    @Mock
+    @InjectMocks
     private MovieMapper movieMapper;
 
     @Mock
@@ -70,8 +70,7 @@ public class MovieServiceTest {
     @Test
     public void findMovieByValidId(){
         Optional<Movie> fake = Optional.of(this.moviesInRepository.getContent().get(0));
-        Mockito.when(movieDAO.findById(Mockito.anyLong()))
-                .thenReturn(fake);
+        Mockito.when(movieDAO.findById(Mockito.anyLong())).thenReturn(fake);
         MovieDetailDTO found = movieService.findMovieById(1L);
         assertEquals(Long.valueOf(1), found.getId());
     }

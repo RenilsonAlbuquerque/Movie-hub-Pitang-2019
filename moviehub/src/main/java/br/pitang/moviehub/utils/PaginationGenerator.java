@@ -29,7 +29,7 @@ public class PaginationGenerator {
 									.build();
 	}
 	public static CustomPage<?> createPage(List elements){
-		return CustomPage.builder().elements(elements)
+		return CustomPage.builder().elements(elements).size(elements.size())
 				.build();
 	}
 	
