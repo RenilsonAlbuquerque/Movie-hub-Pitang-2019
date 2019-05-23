@@ -25,12 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/login").permitAll()
-                //.antMatchers("/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter("/login",authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
-                //.addFilter(new JwtAuthoriationFilter(authenticationManager()))
+                .addFilterBefore(new JwtAuthoriationFilter(),
+                        UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

@@ -10,6 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+@Service
 public class TokenAuthenticationService {
 
     static final long EXPIRATION_TIME = 860_000_000; //10 DAYS IN MILLIS
@@ -33,7 +35,7 @@ public class TokenAuthenticationService {
         }
 
         String JWT = Jwts.builder()
-                .setExpiration(new Date(EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .claim("id", id)
                 .claim("username", username)
                 .claim("roles", rolesAsString)
