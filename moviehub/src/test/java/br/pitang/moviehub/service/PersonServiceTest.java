@@ -55,7 +55,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void findPersonByValidId(){
+    public void findPersonByValidIdTest(){
         Mockito.when(personDAO.findById(Mockito.anyLong()))
                 .thenReturn(Optional.of(peopleInRepository.getContent().get(0)));
         PersonDetailDTO found = personService.findPersonById(Long.valueOf(1));
@@ -63,13 +63,13 @@ public class PersonServiceTest {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void findMovieByInexistentId(){
+    public void findPersonByInexistentIdTest(){
         Mockito.when(personDAO.findById(Mockito.anyLong())).thenReturn(Optional.empty());
         personService.findPersonById(1L);
     }
 
     @Test
-    public void searchMovieByName(){
+    public void searchSerieByNameTest(){
         Mockito.when(personDAO.findAll(Mockito.any(Specification.class),Mockito.any(PageRequest.class)))
                 .thenReturn(peopleInRepository);
         PaginationFilter filter = new PaginationFilter(1,10);
